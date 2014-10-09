@@ -42,3 +42,4 @@ function bws_get_included_files() {
     include_once( plugin_dir_path( __FILE__ ) . "includes/{$file}.php" ) ;
   }
 }
+/**/
