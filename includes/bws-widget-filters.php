@@ -18,12 +18,12 @@ function bws_maybe_add_filters_of_types( $types ) {
 }
 
 function bws_add_filter_if_options_allow( $type ) {
-  if ( bws_options_allow_adding_filter_for_widget_type( $type ) ) {
+  if ( bws_do_options_allow_adding_filter_for_widget_type( $type ) ) {
     bws_add_filter_for_widget_type( $type ) ;
   }
 }
 
-function bws_options_allow_adding_filter_for_widget_type( $type_of_widget ) {
+function bws_do_options_allow_adding_filter_for_widget_type( $type_of_widget ) {
   $options = get_option( 'bws_plugin_options' ) ;
   $widget_key = 'disable_' . $type_of_widget . '_widget' ; 
   if ( ( isset( $options[ $widget_key ] ) ) && ( '1' === $options[ $widget_key ] ) ) {

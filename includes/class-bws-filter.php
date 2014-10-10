@@ -105,4 +105,3 @@ class BWS_Archives extends BWS_Filter {
     return parent::reformat( $markup , 'archives' ) ;
   }
 }
-
