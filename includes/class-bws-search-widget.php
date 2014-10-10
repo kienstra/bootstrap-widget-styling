@@ -21,7 +21,7 @@ class BWS_Search_Widget {
     return $this->markup ; 
   }
 
-  function theme_has_a_search_template() {
+  function theme_has_a_search_template() {  
     $template = locate_template( 'searchform.php' ) ;
     return ( '' != $template ) ; 
   }
@@ -38,19 +38,19 @@ class BWS_Search_Widget {
     $this->markup = str_replace( '<div>' , '<div class="input-group">' , $this->markup ) ;
   }
 
-  function bws_remove_label() {
+  function remove_label() {
     $this->markup = preg_replace( '/<label.*?<\/label>/' , '' , $this->markup ) ;
   }
 
-  function bws_add_form_control_class_to_text_input() {
+  function add_form_control_class_to_text_input() {
     $this->markup = str_replace( '<input type="text"' , '<input type="text" class="form-control"' , $this->markup ) ;
   }
 
-  function bws_add_class_to_submit_button() { 
+  function add_class_to_submit_button() { 
     $this->markup = str_replace( '<input type="submit"' , '<input type="submit" class="btn btn-primary btn-med"' , $this->markup ) ;
   }
 
-  function bws_wrap_submit_button_in_div() { 
+  function wrap_submit_button_in_div() { 
     $this->markup = preg_replace( '/(<input type="submit".*?>)/' , '<div class="input-group-btn">$1</div>' , $this->markup ) ;
   }
 

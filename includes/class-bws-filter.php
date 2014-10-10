@@ -12,14 +12,6 @@ class BWS_Filter {
     $this->type_of_filter = $type_of_filter ;
   }
 
-  static function filter_html_archives( $html_to_filter ) {
-    return self::reformat( $html_to_filter , 'archives' ) ;
-  }
-
-  static function filter_html_pages( $html_to_filter ) {
-    return self::reformat( $html_to_filter , 'pages' ) ;
-  }
-
   protected static function reformat( $html_to_filter , $type_of_filter ) {
     self::$instance = new self( $html_to_filter , $type_of_filter ) ;    
     self::$instance->get_filtered_markup() ;
@@ -88,11 +80,13 @@ class BWS_Filter {
   }
 }
 
+
 class BWS_Menu extends BWS_Filter {
   static function filter( $markup ) {
     return parent::reformat( $markup , 'menu' ) ;
   }
 }
+
 
 class BWS_Categories extends BWS_Filter {
   static function filter( $markup ) {
@@ -103,6 +97,12 @@ class BWS_Categories extends BWS_Filter {
 class BWS_Pages extends BWS_Filter {
   static function filter( $markup ) {
     return parent::reformat( $markup , 'pages' ) ;
+  }
+}
+
+class BWS_Archives extends BWS_Filter {
+  static function filter( $markup ) {
+    return parent::reformat( $markup , 'archives' ) ;
   }
 }
 

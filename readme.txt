@@ -4,11 +4,11 @@ Donate link: http://jdrf.org/get-involved/ways-to-donate/
 Tags: Bootstrap, widgets, mobile, responsive, default widgets
 Requires at least: 3.9
 Tested up to: 4.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Make widgets mobile. A bigger click area and cleaner look for 8 default widgets.
+Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 
 == Description ==
 
@@ -43,6 +43,9 @@ No, this doesn't output any stylesheets. It only formats widgets so they can use
  
 == Changelog ==
 
+= 1.0.3 =
+* Added "Custom Menu" widget Bootstrap styling
+
 = 1.0.2 =
 * Fixed bug where warning appeared in strict mode.
 * Integration with the plugin "Adapter Widget Rows."
@@ -55,6 +58,9 @@ No, this doesn't output any stylesheets. It only formats widgets so they can use
 * First version
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+"Custom Menu" widget support added
 
 = 1.0.2 =
 Small bug fix.
