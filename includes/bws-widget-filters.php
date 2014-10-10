@@ -1,6 +1,11 @@
 <?php
 
-bws_maybe_add_filters_of_types( array( 'categories' , 'pages' , 'archives' ) ) ;
+
+// Maybe filter 'categories' , 'pages' , and 'archives' widgets
+add_action( 'plugins_loaded' , 'bws_widget_filters' ) ;
+function bws_widget_filters() { 
+  bws_maybe_add_filters_of_types( array( 'categories' , 'pages' , 'archives' ) ) ;
+}
 
 function bws_maybe_add_filters_of_types( $types ) {
   foreach( $types as $type ) { 
@@ -22,8 +27,9 @@ function bws_options_allow_adding_filter_for_widget_type( $type_of_widget ) {
 function bws_add_filter_for_widget_type( $type ) {
   if ( 'archives' === $type ) {
     add_filter( 'get_archives_link' , array( 'BWS_Filter' , 'filter_html_archives' ) ) ;
-  } else { 
-    add_filter( 'wp_list_' . $type , array( 'BWS_Filter' , 'filter_html_' . $type ) ) ;
+  }
+  else {
+    add_filter( 'wp_list_' . $type , array( 'BWS_' . $type , 'filter' ) ) ; 
   }
 }
 
@@ -56,28 +62,39 @@ function bws_comments_enqueue_javascript( $args ) {
   return $args ; 
 }
 
-bws_add_search_form_filter_if_option_allows() ;
-
+add_action( 'plugins_loaded' , 'bws_add_search_form_filter_if_option_allows' ) ; 
 function bws_add_search_form_filter_if_option_allows() {
   $options = get_option( 'bws_plugin_options' ) ;
   if ( ( isset( $options[ 'disable_search_widget' ] ) ) && ( '1' === $options[ 'disable_search_widget' ] ) ) {
     return ;
   } else {
-    add_filter( 'get_search_form' , 'bws_search_filter' , '1' ) ;
+    add_filter( 'get_search_form' , array( 'BWS_Search_Widget' , 'filter' ) , '1' ) ;
   }
 }
 
+
+
+
+
 function bws_search_filter( $markup ) {
-  $search_template = locate_template( 'searchform.php' );
-  if ( '' == $search_template ) {
-    // there's no search form template in the theme, so filter the markup
-    $markup = bws_add_input_group_class_to_opening_div( $markup ) ;
-    $markup = bws_remove_label( $markup ) ;
-    $markup = bws_add_form_control_class_to_text_input( $markup ) ;
-    $markup = bws_add_class_to_submit_button( $markup ) ; // btn btn-primary btn-med
-    $markup = bws_wrap_submit_button_in_div( $markup ) ;
+  if ( ! bws_theme_has_a_search_template() ) {
+    $markup = bws_filter_search_form_markup( $markup ) ;
   }
   return $markup ; 
+}
+
+function bws_theme_has_a_search_template() {
+  $template = locate_template( 'searchform.php' ) ;
+  return ( '' != $template ) ; 
+}
+
+function bws_filter_search_form_markup( $markup ) { 
+  $markup = bws_add_input_group_class_to_opening_div( $markup ) ;
+  $markup = bws_remove_label( $markup ) ;
+  $markup = bws_add_form_control_class_to_text_input( $markup ) ;
+  $markup = bws_add_class_to_submit_button( $markup ) ; 
+  $markup = bws_wrap_submit_button_in_div( $markup ) ;
+  return $markup ;
 }
 
 function bws_add_input_group_class_to_opening_div( $html ) {
@@ -95,8 +112,9 @@ function bws_add_form_control_class_to_text_input( $html ) {
   return $filtered_html ;
 }
 
-function bws_add_class_to_submit_button( $html ) { 
-  $filtered_html = str_replace( '<input type="submit"' , '<input type="submit" class="btn btn-primary btn-med"' , $html ) ;
+function bws_add_class_to_submit_button( $html ) {
+  $class = apply_filters( 'bws_class_of_search_widget_submit_button' , 'btn btn-primary btn-med' ) ; 
+  $filtered_html = str_replace( "<input type='submit'" , "<input type='submit' class='$class'" , $html ) ;
   return $filtered_html ;
 }
 
@@ -105,10 +123,28 @@ function bws_wrap_submit_button_in_div( $html ) {
   return $filtered_html ;
 }
 
+
+// Filter tag cloud widget
 add_filter( 'wp_tag_cloud' , 'bwp_filter_tag_cloud' ) ; 
 function bwp_filter_tag_cloud( $markup ) {
   $regex = '/(<a[^>]+?>)([^<]+?)(<\/a>)/' ;
   $replace_with = "$1<span class='label label-primary'>$2</span>$3" ;
   $markup = preg_replace( $regex , $replace_with , $markup ) ; 
   return $markup ;
+}
+
+// Filter menu widget
+add_filter( 'widget_display_callback' , 'bws_search_for_menu_widget' , 4 , 10 ) ; 
+function bws_search_for_menu_widget( $instance , $widget , $args ) {
+  if ( ( isset( $widget->widget_options[ 'classname' ] ) ) && ( 'widget_nav_menu' == $widget->widget_options[ 'classname' ] ) ) {
+    add_filter( 'wp_nav_menu_items' , 'bws_filter_widget_menu' , 2 , 10 ) ;
+  }
+  return $instance ;  
+}
+
+function bws_filter_widget_menu( $menu_markup , $args ) {
+  if ( ( ! isset( $args->fallback_cb ) ) || ( "" == $args->fallback_cb ) ) {
+    $menu_markup = BWS_Menu::filter( $menu_markup ) ;  
+  }
+  return $menu_markup ; 
 }

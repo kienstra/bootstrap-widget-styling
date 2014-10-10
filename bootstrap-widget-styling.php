@@ -36,10 +36,9 @@ function bws_load_textdomain() {
 add_action( 'plugins_loaded' , 'bws_get_included_files' ) ;
 function bws_get_included_files() {
   $included_files = array( 'bws-options' , 'bws-widget-filters' , 'class-bws-settings-fields' ,
-    		    	   'class-bws-settings-page' , 'class-bws-filter'
+    		    	   'class-bws-settings-page' , 'class-bws-filter' , 'class-bws-search-widget' 
   ) ; 
   foreach( $included_files as $file ) {
     include_once( plugin_dir_path( __FILE__ ) . "includes/{$file}.php" ) ;
   }
 }
-/**/
