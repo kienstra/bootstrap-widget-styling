@@ -2,10 +2,10 @@
 
 // Filter widget markup
 class BWS_Filter {
-	private static $instance;
-	static $types_of_widgets_called = array();
-	private $markup;
-	private $type_of_filter;
+	protected static $instance;
+	protected static $types_of_widgets_called = array();
+	protected $markup;
+	protected $type_of_filter;
 
 	private function __construct( $html_to_filter , $type_of_filter ) {
 		$this->markup = $html_to_filter;
@@ -35,14 +35,14 @@ class BWS_Filter {
 	}
 
 	function close_ul_if_first_call_of_filter() {
-		if ( self::is_first_instance_of( $this->type_of_filter ) ) {
+		if ( self::is_first_instance_of_type() ) {
 			self::close_ul_and_add_opening_div();
 		}
 	}
 
-	function is_first_instance_of( $type ) {
-		if ( ! isset( self::$types_of_widgets_called[ $type ] ) ) {
-			self::$types_of_widgets_called[ $type ] = true;
+	function is_first_instance_of_type() {
+		if ( ! isset( self::$types_of_widgets_called[ $this->type_of_filter ] ) ) {
+			self::$types_of_widgets_called[ $this->type_of_filter ] = true;
 			return true;
 		}
 		return false;
@@ -86,7 +86,6 @@ class BWS_Menu extends BWS_Filter {
 		return parent::reformat( $markup , 'menu' );
 	}
 }
-
 
 class BWS_Categories extends BWS_Filter {
 	static function filter( $markup ) {
