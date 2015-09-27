@@ -15,7 +15,7 @@ if ( ! defined( 'WPINC' )	) {
 }
 
 define( 'BWS_PLUGIN_SLUG' , 'bootstrap-widget-styling' ) ;
-define( 'BWS_PLUGIN_VERSION' , '1.0.0' ) ;
+define( 'BWS_PLUGIN_VERSION' , '1.0.3' ) ;
 
 register_activation_hook( __FILE__ , 'bws_activate_with_default_options' ) ;
 function bws_activate_with_default_options() {
