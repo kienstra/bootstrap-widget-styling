@@ -2,14 +2,15 @@
 	$( function() {
 
 		// widget markup to be edited
-		var recentPostsWidget = $( '.widget_recent_entries' );
-		var recentCommentWidget = $( '.widget_recent_comments' );
-		var metaWidget = $( '.widget_meta' );
+		var recentPostsWidget = $( '.widget_recent_entries');
+		var	recentCommentWidget = $( '.widget_recent_comments');
+		var	metaWidget = $( '.widget_meta' );
 
 		$.map( [ recentPostsWidget , recentCommentWidget , metaWidget ] , formatWidgetForBootstrap );
 		function formatWidgetForBootstrap( $widget ) {
+			var newListGroupDiv;
 			var allAnchors = [];
-			/* new */
+
 			$widget.find( 'ul li:not(.awr-edit-icons)' ).map( function() { // turn each li tag into an anchor, store in allAnchors
 				var span = getSpan( $( this ) ).clone().addClass( 'label label-primary pull-right' );
 				var clearfixDiv = $( '<div>' ).attr( 'class' , 'clearfix' );
@@ -26,9 +27,10 @@
 
 			function getSpan( $container ) {
 				var $span = $container.find( 'span' );
-				var child_anchor = $span.find( 'a' );
-				if ( child_anchor.length ) {
-					return $( '<span>' ).append( child_anchor.html() );
+				var $child_anchor = $span.find( 'a' );
+
+				if ( $child_anchor.length ) {
+					return $( '<span>' ).append( $child_anchor.html() );
 				}
 				return $span;
 			}

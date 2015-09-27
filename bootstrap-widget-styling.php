@@ -11,7 +11,7 @@ License: GPL2
 */
 
 if ( ! defined( 'WPINC' )	) {
- die ;
+	die ;
 }
 
 define( 'BWS_PLUGIN_SLUG' , 'bootstrap-widget-styling' ) ;
@@ -20,10 +20,10 @@ define( 'BWS_PLUGIN_VERSION' , '1.0.3' ) ;
 register_activation_hook( __FILE__ , 'bws_activate_with_default_options' ) ;
 function bws_activate_with_default_options() {
 	$bws_plugin_options = array(
-	'disable_pages_widget' => 0 ,
-	'disable_search_widget' => 0 ,
-	'disable_categories_widget' => 0 ,
-	'disable_archives_widget' => 0 ,
+		'disable_pages_widget' => 0 ,
+		'disable_search_widget' => 0 ,
+		'disable_categories_widget' => 0 ,
+		'disable_archives_widget' => 0 ,
 	) ;
 	update_option( 'bws_plugin_options' , $bws_plugin_options ) ;
 }
@@ -36,9 +36,9 @@ function bws_load_textdomain() {
 add_action( 'plugins_loaded' , 'bws_get_included_files' ) ;
 function bws_get_included_files() {
 	$included_files = array( 'bws-options' , 'bws-widget-filters' , 'class-bws-settings-fields' ,
-				'class-bws-settings-page' , 'class-bws-filter' , 'class-bws-search-widget'
+							'class-bws-settings-page' , 'class-bws-filter' , 'class-bws-search-widget'
 	) ;
 	foreach( $included_files as $file ) {
-	include_once( plugin_dir_path( __FILE__ ) . "includes/{$file}.php" ) ;
+		include_once( plugin_dir_path( __FILE__ ) . "includes/{$file}.php" ) ;
 	}
 }
