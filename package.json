@@ -1,0 +1,23 @@
+{
+  "name": "bootstrap-widget-styling",
+  "version": "1.0.4",
+  "description": "WordPress plugin to modify the markup of widgets for Bootstrap. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kienstra/bootstrap-widget-styling.git"
+  },
+  "keywords": [
+    "WordPress",
+    "widget"
+  ],
+  "author": "@ryankienstra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kienstra/bootstrap-widget-styling/issues"
+  },
+  "homepage": "https://github.com/kienstra/bootstrap-widget-styling#readme"
+}
