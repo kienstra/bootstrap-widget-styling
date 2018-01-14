@@ -38,7 +38,7 @@ function bws_settings_setup() {
 // Add settings link on the main plugin page
 add_filter( 'plugin_action_links' , 'bws_add_settings_link' , 2 , 2 ) ;
 function bws_add_settings_link( $actions, $file ) {
-	if ( false !== strpos( $file, BWS_PLUGIN_SLUG ) ) {
+	if ( false !== strpos( $file, BootstrapWidgetStyling\Plugin::VERSION ) ) {
 		$options_url = admin_url( 'options-general.php?page=bws_options_page' )  ;
 		$actions[ 'settings' ] = "<a href='{$options_url}'>Settings</a>" ;
 	}
