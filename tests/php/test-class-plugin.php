@@ -61,8 +61,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 		$classes = array(
 			'BWS_Filter',
 			'BWS_Search_Widget',
-			'BWS_Settings_Fields',
-			'BWS_Settings_Page',
+			__NAMESPACE__ . '\Setting',
 		);
 
 		foreach ( $classes as $class ) {
@@ -76,6 +75,9 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * @see Plugin::init_classes().
 	 */
 	public function test_init_classes() {
+		$this->plugin->init();
+		$this->assertEquals( __NAMESPACE__ . '\Setting', get_class( $this->plugin->components->setting ) );
+		$this->assertEquals( 10, has_action( 'admin_menu', array( $this->plugin->components->setting, 'options_page' ) ) );
 	}
 
 	/**
