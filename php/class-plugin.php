@@ -103,7 +103,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function init_classes() {
-		$this->components = new \stdClass();
+		$this->components          = new \stdClass();
 		$this->components->setting = new Setting( $this );
 		$this->components->setting->init();
 	}

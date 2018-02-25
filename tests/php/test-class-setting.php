@@ -89,9 +89,9 @@ class Test_Setting extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test plugin_section().
+	 * Test validate_options().
 	 *
-	 * @see Setting::plugin_section()
+	 * @see Setting::validate_options()
 	 */
 	public function test_validate_options() {
 		$expected_validated_options = array(

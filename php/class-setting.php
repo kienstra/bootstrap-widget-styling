@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin settings.
+ * Widget setting class.
  *
  * @package BootstrapWidgetStyling
  */
@@ -8,7 +8,7 @@
 namespace BootstrapWidgetStyling;
 
 /**
- * Main plugin class
+ * Setting class.
  */
 class Setting {
 
@@ -27,7 +27,7 @@ class Setting {
 	const SUBMENU_SLUG = 'bws_options_page';
 
 	/**
-	 * The settings section.
+	 * Settings section name.
 	 *
 	 * @var string
 	 */
@@ -43,7 +43,7 @@ class Setting {
 	/**
 	 * Plugin instance
 	 *
-	 * @var object
+	 * @var Plugin
 	 */
 	public $plugin;
 
@@ -65,7 +65,7 @@ class Setting {
 	/**
 	 * Setting constructor.
 	 *
-	 * @param object $plugin Instance of the plugin.
+	 * @param Plugin $plugin Instance of the plugin.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -213,7 +213,7 @@ class Setting {
 	 *
 	 * Under the 'Settings' section in /wp-admin.
 	 *
-	 * @param array  $actions Links for plugin actions.
+	 * @param array  $actions     Links for plugin actions.
 	 * @param string $plugin_file The file of the plugin.
 	 * @return array $actions Filtered plugin action.
 	 */
