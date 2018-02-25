@@ -81,15 +81,19 @@ class Plugin {
 	 */
 	public function load_files() {
 		$files = array(
-			'bws-options',
 			'bws-widget-filters',
-			'class-bws-settings-fields',
-			'class-bws-settings-page',
 			'class-bws-filter',
 			'class-bws-search-widget',
 		);
 		foreach ( $files as $file ) {
 			include_once dirname( plugin_dir_path( __FILE__ ) ) . "/includes/{$file}.php";
+		}
+
+		$php_classes = array(
+			'setting',
+		);
+		foreach ( $php_classes as $class ) {
+			include_once __DIR__ . "/class-{$class}.php";
 		}
 	}
 
@@ -100,6 +104,8 @@ class Plugin {
 	 */
 	public function init_classes() {
 		$this->components = new \stdClass();
+		$this->components->setting = new Setting( $this );
+		$this->components->setting->init();
 	}
 
 	/**
