@@ -61,12 +61,25 @@ class Widget_Output {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
 				if ( 'archives' === $widget ) {
 					add_filter( 'get_archives_link', array( 'BWS_Archives', 'filter' ) );
-					add_filter( 'dynamic_sidebar_params', 'bws_add_closing_div_to_archives_widget' );
+					add_filter( 'dynamic_sidebar_params', array( $this, 'add_closing_div' ) );
 				} else {
 					add_filter( 'wp_list_' . $widget, array( 'BWS_' . ucwords( $widget ), 'filter' ) );
 				}
 			}
 		}
+	}
+
+	/**
+	 * Adds a closing </div> to the 'Archives' widget.
+	 *
+	 * @param array $params The parameters for the widget output callback.
+	 * @return array $params The filtered parameters.
+	 */
+	public function add_closing_div( $params ) {
+		if ( isset( $params[0]['widget_name'] ) && ( 'Archives' === $params[0]['widget_name'] ) ) {
+			$params[0]['after_widget'] = '</div>' . $params[0]['after_widget'];
+		}
+		return $params;
 	}
 
 }

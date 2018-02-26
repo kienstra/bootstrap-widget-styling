@@ -1,12 +1,5 @@
 <?php
 
-function bws_add_closing_div_to_archives_widget( $params ) {
-	if ( isset( $params[ 0 ][ 'widget_name' ] ) && 'Archives' == $params[ 0 ][ 'widget_name' ] ) {
-		$params[ 0 ][ 'after_widget' ] = '</div>' . $params[ 0 ][ 'after_widget' ] ;
-	}
-	return $params ;
-}
-
 // Filter search form widget
 add_action( 'init', 'bws_add_search_form_filter_if_option_allows' );
 function bws_add_search_form_filter_if_option_allows() {
