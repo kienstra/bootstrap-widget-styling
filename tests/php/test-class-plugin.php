@@ -50,6 +50,8 @@ class Test_Plugin extends \WP_UnitTestCase {
 	public function test_init() {
 		$this->plugin->init();
 		$this->assertTrue( class_exists( __NAMESPACE__ . '\Plugin' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\Setting' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\Widget_Output' ) );
 	}
 
 	/**

@@ -165,6 +165,21 @@ class Test_Setting extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test is_disabled().
+	 *
+	 * @see Setting::is_disabled()
+	 */
+	public function test_is_disabled() {
+		$options = array(
+			'disable_categories_widget' => Setting::DISABLED_VALUE,
+			'disable_pages_widget'      => 0,
+		);
+		update_option( Setting::OPTION_NAME, $options );
+		$this->assertTrue( $this->instance->is_disabled( 'categories' ) );
+		$this->assertFalse( $this->instance->is_disabled( 'pages' ) );
+	}
+
+	/**
 	 * Test section_text().
 	 *
 	 * @see Setting::section_text()
