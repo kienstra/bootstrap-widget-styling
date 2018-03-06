@@ -91,7 +91,6 @@ class Plugin {
 	 */
 	public function load_files() {
 		$files = array(
-			'bws-widget-filters',
 			'class-bws-filter',
 			'class-bws-search-widget',
 		);
