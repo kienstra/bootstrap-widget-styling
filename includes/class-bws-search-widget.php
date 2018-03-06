@@ -5,7 +5,12 @@ class BWS_Search_Widget {
 	private static $instance ;
 	private $markup ;
 
-	private function __construct( $markup ) {
+	/**
+	 * BWS_Search_Widget constructor.
+	 *
+	 * @param string $markup The markup to filter.
+	 */
+	public function __construct( $markup ) {
 		$this->markup = $markup ;
 	}
 

@@ -34,6 +34,13 @@ class Setting {
 	const SETTINGS_SECTION = 'bws_plugin_primary';
 
 	/**
+	 * The settings key to disable the search widget.
+	 *
+	 * @var string
+	 */
+	const DISABLE_SEARCH_WIDGET = 'disable_search_widget';
+
+	/**
 	 * Value of the setting if the plugin is disabled.
 	 *
 	 * @var string

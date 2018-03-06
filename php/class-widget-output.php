@@ -46,6 +46,9 @@ class Widget_Output {
 	 */
 	public function init() {
 		add_action( 'init', array( $this, 'add_filters' ) );
+		add_filter( 'get_search_form', array( $this, 'search_form' ) );
+		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
+		add_filter( 'wp_nav_menu_items', array( $this, 'menu_widget' ) );
 	}
 
 	/**
@@ -80,6 +83,39 @@ class Widget_Output {
 			$params[0]['after_widget'] = '</div>' . $params[0]['after_widget'];
 		}
 		return $params;
+	}
+
+	/**
+	 * Filters the markup of the search form.
+	 *
+	 * @param string $form The markup of the search form.
+	 * @return string $form The filtered markup of the search form.
+	 */
+	public function search_form( $form ) {
+		if ( ! $this->plugin->components->setting->is_disabled( 'search' ) ) {
+			return \BWS_Search_Widget::filter( $form );
+		}
+		return $form;
+	}
+
+	/**
+	 * Filters the tag cloud markup.
+	 *
+	 * @param string $markup The tag cloud markup.
+	 * @return string $markup The filtered tag cloud markup.
+	 */
+	public function tag_cloud( $markup ) {
+		return preg_replace( '/(<a[^>]+?>)([^<]+?)(<\/a>)/', "$1<span class='label label-primary'>$2</span>$3", $markup );
+	}
+
+	/**
+	 * Filters the tag cloud markup.
+	 *
+	 * @param string $markup The menu cloud markup.
+	 * @return string $markup The filtered menu markup.
+	 */
+	public function menu_widget( $markup ) {
+		return \BWS_Filter::reformat( $markup, 'menu' );
 	}
 
 }
