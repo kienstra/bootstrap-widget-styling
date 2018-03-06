@@ -86,21 +86,3 @@ class BWS_Filter {
 		}
 	}
 }
-
-class BWS_Categories extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'categories' );
-	}
-}
-
-class BWS_Pages extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'pages' );
-	}
-}
-
-class BWS_Archives extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'archives' );
-	}
-}

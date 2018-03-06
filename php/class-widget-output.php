@@ -63,10 +63,14 @@ class Widget_Output {
 		foreach ( $this->widgets as $widget ) {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
 				if ( 'archives' === $widget ) {
-					add_filter( 'get_archives_link', array( 'BWS_Archives', 'filter' ) );
+					add_filter( 'get_archives_link', function( $markup ) {
+						return \BWS_Filter::reformat( $markup, 'archives' );
+					} );
 					add_filter( 'dynamic_sidebar_params', array( $this, 'add_closing_div' ) );
 				} else {
-					add_filter( 'wp_list_' . $widget, array( 'BWS_' . ucwords( $widget ), 'filter' ) );
+					add_filter( 'wp_list_' . $widget, function( $markup ) use ( $widget ) {
+						return \BWS_Filter::reformat( $markup, $widget );
+					} );
 				}
 			}
 		}

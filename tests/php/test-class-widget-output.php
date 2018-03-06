@@ -49,6 +49,7 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 * @covers Widget_Output::add_filters()
 	 */
 	public function test_add_filters() {
+		global $wp_filter;
 		$options = array(
 			'disable_categories_widget' => Setting::DISABLED_VALUE,
 			'disable_pages_widget'      => 0,
@@ -58,8 +59,17 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 
 		update_option( Setting::OPTION_NAME, $options );
 		$this->instance->add_filters();
-		$this->assertFalse( has_filter( 'wp_list_categories', 'BWS_Categories::filter' ) );
-		$this->assertEquals( 10, has_filter( 'wp_list_pages', 'BWS_Pages::filter' ) );
+
+		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
+		$should_have_closures = array(
+			'wp_list_pages',
+			'wp_list_categories',
+			'get_archives_link',
+		);
+		foreach ( $should_have_closures as $tag_name ) {
+			$callback = array_shift( $wp_filter[ $tag_name ]->callbacks[10] );
+			$this->assertEquals( 'Closure', get_class( $callback['function'] ) );
+		}
 	}
 
 	/**
