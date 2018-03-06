@@ -31,7 +31,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test get_instance().
 	 *
-	 * @see Plugin::get_instance().
+	 * @covers Plugin::get_instance().
 	 */
 	public function test_get_instance() {
 		$this->assertEquals( Plugin::get_instance(), $this->plugin );
@@ -45,17 +45,19 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test init().
 	 *
-	 * @see Plugin::init().
+	 * @covers Plugin::init().
 	 */
 	public function test_init() {
 		$this->plugin->init();
 		$this->assertTrue( class_exists( __NAMESPACE__ . '\Plugin' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\Setting' ) );
+		$this->assertTrue( class_exists( __NAMESPACE__ . '\Widget_Output' ) );
 	}
 
 	/**
 	 * Test load_files().
 	 *
-	 * @see Plugin::load_files().
+	 * @covers Plugin::load_files().
 	 */
 	public function test_load_files() {
 		$classes = array(
@@ -72,7 +74,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test init_classes().
 	 *
-	 * @see Plugin::init_classes().
+	 * @covers Plugin::init_classes().
 	 */
 	public function test_init_classes() {
 		$this->plugin->init();
@@ -83,7 +85,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test add_actions().
 	 *
-	 * @see Plugin::add_actions().
+	 * @covers Plugin::add_actions().
 	 */
 	public function test_add_actions() {
 		$this->plugin->add_actions();
@@ -93,7 +95,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test textdomain().
 	 *
-	 * @see Plugin::textdomain().
+	 * @covers Plugin::textdomain().
 	 */
 	public function test_textdomain() {
 		$this->plugin->textdomain();

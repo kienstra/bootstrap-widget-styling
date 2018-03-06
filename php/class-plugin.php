@@ -47,6 +47,16 @@ class Plugin {
 	public $components;
 
 	/**
+	 * The PHP classes.
+	 *
+	 * @var array
+	 */
+	public $classes = array(
+		'setting',
+		'widget-output',
+	);
+
+	/**
 	 * Get the instance of this plugin
 	 *
 	 * @return object $instance Plugin instance.
@@ -81,7 +91,6 @@ class Plugin {
 	 */
 	public function load_files() {
 		$files = array(
-			'bws-widget-filters',
 			'class-bws-filter',
 			'class-bws-search-widget',
 		);
@@ -89,10 +98,7 @@ class Plugin {
 			include_once dirname( plugin_dir_path( __FILE__ ) ) . "/includes/{$file}.php";
 		}
 
-		$php_classes = array(
-			'setting',
-		);
-		foreach ( $php_classes as $class ) {
+		foreach ( $this->classes as $class ) {
 			include_once __DIR__ . "/class-{$class}.php";
 		}
 	}
@@ -103,9 +109,12 @@ class Plugin {
 	 * @return void
 	 */
 	public function init_classes() {
-		$this->components          = new \stdClass();
-		$this->components->setting = new Setting( $this );
+		$this->components                = new \stdClass();
+		$this->components->setting       = new Setting( $this );
+		$this->components->widget_output = new Widget_Output( $this );
+		$this->components->search_form   = new \BWS_Search_Widget( $this );
 		$this->components->setting->init();
+		$this->components->widget_output->init();
 	}
 
 	/**

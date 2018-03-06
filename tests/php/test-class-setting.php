@@ -33,7 +33,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test init().
 	 *
-	 * @see Setting::init()
+	 * @covers Setting::init()
 	 */
 	public function test_init() {
 		$this->instance->init();
@@ -46,7 +46,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test options_page().
 	 *
-	 * @see Setting::options_page()
+	 * @covers Setting::options_page()
 	 */
 	public function test_options_page() {
 		global $submenu;
@@ -65,7 +65,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test options_markup().
 	 *
-	 * @see Setting::options_markup()
+	 * @covers Setting::options_markup()
 	 */
 	public function test_options_markup() {
 		ob_start();
@@ -79,7 +79,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test plugin_section().
 	 *
-	 * @see Setting::plugin_section()
+	 * @covers Setting::plugin_section()
 	 */
 	public function test_plugin_section() {
 		ob_start();
@@ -91,7 +91,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test validate_options().
 	 *
-	 * @see Setting::validate_options()
+	 * @covers Setting::validate_options()
 	 */
 	public function test_validate_options() {
 		$expected_validated_options = array(
@@ -111,7 +111,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test register().
 	 *
-	 * @see Setting::register()
+	 * @covers Setting::register()
 	 */
 	public function test_register() {
 		global $wp_registered_settings, $wp_settings_sections;
@@ -147,7 +147,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test add_settings_fields().
 	 *
-	 * @see Setting::add_settings_fields()
+	 * @covers Setting::add_settings_fields()
 	 */
 	public function test_add_settings_fields() {
 		global $wp_settings_fields;
@@ -165,9 +165,24 @@ class Test_Setting extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test is_disabled().
+	 *
+	 * @covers Setting::is_disabled()
+	 */
+	public function test_is_disabled() {
+		$options = array(
+			'disable_categories_widget' => Setting::DISABLED_VALUE,
+			'disable_pages_widget'      => 0,
+		);
+		update_option( Setting::OPTION_NAME, $options );
+		$this->assertTrue( $this->instance->is_disabled( 'categories' ) );
+		$this->assertFalse( $this->instance->is_disabled( 'pages' ) );
+	}
+
+	/**
 	 * Test section_text().
 	 *
-	 * @see Setting::section_text()
+	 * @covers Setting::section_text()
 	 */
 	public function test_section_text() {
 		ob_start();
@@ -180,7 +195,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	/**
 	 * Test settings_link().
 	 *
-	 * @see Setting::settings_link()
+	 * @covers Setting::settings_link()
 	 */
 	public function test_settings_link() {
 		$plugin_file = 'other-plugin/other-plugin.php';

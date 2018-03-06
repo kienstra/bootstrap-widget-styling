@@ -12,8 +12,15 @@ class BWS_Filter {
 		$this->type_of_filter = $type_of_filter;
 	}
 
-	protected static function reformat( $html_to_filter , $type_of_filter ) {
-		self::$instance = new self( $html_to_filter , $type_of_filter );
+	/**
+	 * Reformat the markup.
+	 *
+	 * @param string $html_to_filter The HTML to filter.
+	 * @param string $type_of_filter The type of filter.
+	 * @return mixed
+	 */
+	public static function reformat( $html_to_filter, $type_of_filter ) {
+		self::$instance = new self( $html_to_filter, $type_of_filter );
 		self::$instance->get_filtered_markup();
 		return self::$instance->markup;
 	}
@@ -59,8 +66,8 @@ class BWS_Filter {
 	}
 
 	function remove_li_tags() {
-		$regex = '/<li.*?>/';
-		$this->markup =	preg_replace( $regex	, '' , $this->markup );
+		$regex        = '/<li.*?>/';
+		$this->markup = preg_replace( $regex, '', $this->markup );
 	}
 
 	function add_list_group_class_to_anchor_tags() {
@@ -77,30 +84,5 @@ class BWS_Filter {
 		if ( 'archives' !== $this->type_of_filter )	{
 			$this->markup .= '</div>';
 		}
-	}
-}
-
-
-class BWS_Menu extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'menu' );
-	}
-}
-
-class BWS_Categories extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'categories' );
-	}
-}
-
-class BWS_Pages extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'pages' );
-	}
-}
-
-class BWS_Archives extends BWS_Filter {
-	static function filter( $markup ) {
-		return parent::reformat( $markup , 'archives' );
 	}
 }

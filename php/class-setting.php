@@ -34,6 +34,13 @@ class Setting {
 	const SETTINGS_SECTION = 'bws_plugin_primary';
 
 	/**
+	 * The settings key to disable the search widget.
+	 *
+	 * @var string
+	 */
+	const DISABLE_SEARCH_WIDGET = 'disable_search_widget';
+
+	/**
 	 * Value of the setting if the plugin is disabled.
 	 *
 	 * @var string
@@ -58,8 +65,8 @@ class Setting {
 	public $widgets = array(
 		'categories',
 		'pages',
-		'search',
 		'archives',
+		'search',
 	);
 
 	/**
@@ -177,9 +184,8 @@ class Setting {
 	public function add_settings_fields() {
 		foreach ( $this->widgets as $widget ) {
 			$callback = function () use ( $widget ) {
-				$options                = get_option( 'bws_plugin_options' );
-				$key                    = "disable_{$widget}_widget";
-				$disable_widget_setting = isset( $options[ $key ] ) ? $options[ $key ] : 0;
+				$plugin                 = Plugin::get_instance();
+				$disable_widget_setting = $plugin->setting->is_disabled( $widget );
 				$name                   = 'bws_plugin_options[disable_' . $widget . '_widget]';
 
 				?>
@@ -189,6 +195,18 @@ class Setting {
 			// translators: %s: the name of the widget.
 			add_settings_field( "bws_plugin_disable_{$widget}_widget", sprintf( esc_html__( '%s widget' ), ucwords( $widget ) ), $callback, self::SUBMENU_SLUG, self::SETTINGS_SECTION );
 		}
+	}
+
+	/**
+	 * Whether filtering the output of a widget is disabled.
+	 *
+	 * @param string $widget The widget to check.
+	 * @return boolean
+	 */
+	public function is_disabled( $widget ) {
+		$options = get_option( 'bws_plugin_options' );
+		$key     = "disable_{$widget}_widget";
+		return ( isset( $options[ $key ] ) && ( self::DISABLED_VALUE === $options[ $key ] ) );
 	}
 
 	/**
