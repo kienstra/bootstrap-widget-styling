@@ -36,29 +36,21 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 * @covers Widget_Output::init()
 	 */
 	public function test_init() {
+		global $wp_filter;
 		$this->instance->init();
-		$this->assertEquals( 10, has_action( 'init', array( $this->instance, 'add_filters' ) ) );
 		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'menu_widget' ) ) );
-	}
 
-	/**
-	 * Test add_filters().
-	 *
-	 * @covers Widget_Output::add_filters()
-	 */
-	public function test_add_filters() {
-		global $wp_filter;
-		$options = array(
-			'disable_categories_widget' => Setting::DISABLED_VALUE,
-			'disable_pages_widget'      => 0,
+		update_option(
+			Setting::OPTION_NAME,
+			array(
+				'disable_categories_widget' => Setting::DISABLED_VALUE,
+				'disable_pages_widget'      => 0,
+			)
 		);
 		remove_filter( 'wp_list_categories', 'BWS_Categories::filter' );
 		remove_filter( 'wp_list_pages', 'BWS_Pages::filter' );
-
-		update_option( Setting::OPTION_NAME, $options );
-		$this->instance->add_filters();
 
 		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
 		$should_have_closures = array(

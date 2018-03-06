@@ -40,26 +40,15 @@ class Widget_Output {
 	}
 
 	/**
-	 * Add the actions.
+	 * Add the widget output filters.
 	 *
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'init', array( $this, 'add_filters' ) );
 		add_filter( 'get_search_form', array( $this, 'search_form' ) );
 		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
 		add_filter( 'wp_nav_menu_items', array( $this, 'menu_widget' ) );
-	}
 
-	/**
-	 * Adds the filters for the widgets.
-	 *
-	 * For the widgets in the property $widgets.
-	 * Based on whether the filters are disabled in the settings.
-	 *
-	 * @return void
-	 */
-	public function add_filters() {
 		foreach ( $this->widgets as $widget ) {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
 				if ( 'archives' === $widget ) {
