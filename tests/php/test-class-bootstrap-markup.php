@@ -52,4 +52,18 @@ class Test_Bootstrap_Markup extends \WP_UnitTestCase {
 		$this->assertEquals( $li_element, $this->instance->maybe_remove_ul( $ul_with_classes ) );
 	}
 
+	/**
+	 * Test maybe_close_ul().
+	 *
+	 * @covers Bootstrap_Markup::maybe_close_ul()
+	 */
+	public function test_maybe_close_ul() {
+		$original_markup = '<article><span>Test Text</span></article>';
+		$this->assertEquals( '</ul><div class="list-group">' . $original_markup, $this->instance->maybe_close_ul( $original_markup ) );
+		$widget_type                    = 'categories';
+		$this->instance->type_of_filter = $widget_type;
+		Bootstrap_Markup::$types_of_widgets_called[ $widget_type ] = true;
+		$this->assertEquals( $original_markup, $this->instance->maybe_close_ul( $original_markup ) );
+	}
+
 }

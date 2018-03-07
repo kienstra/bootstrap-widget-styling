@@ -20,7 +20,14 @@ class Bootstrap_Markup {
 	public $plugin;
 
 	protected static $instance;
-	protected static $types_of_widgets_called = array();
+
+	/**
+	 * The types of widgets output.
+	 *
+	 * @var array
+	 */
+	public static $types_of_widgets_called = array();
+
 	public $markup;
 	public $type_of_filter;
 
@@ -41,7 +48,7 @@ class Bootstrap_Markup {
 	 * @return mixed
 	 */
 	public function reformat( $html_to_filter, $type_of_filter ) {
-		$this->markup = $html_to_filter;
+		$this->markup         = $html_to_filter;
 		$this->type_of_filter = $type_of_filter;
 		$this->filter_markup( $html_to_filter );
 		return $this->markup;
@@ -54,8 +61,8 @@ class Bootstrap_Markup {
 	 * @$return void
 	 */
 	public function filter_markup( $markup ) {
-		$this->markup = $this->maybe_remove_ul( $markup );
-		$this->close_ul_if_first_call_of_filter();
+		$markup       = $this->maybe_remove_ul( $markup );
+		$this->markup = $this->maybe_close_ul( $markup );
 		$this->replace_parenthesized_number_with_badge_number();
 		$this->remove_li_tags();
 		$this->add_list_group_class_to_anchor_tags();
@@ -76,28 +83,24 @@ class Bootstrap_Markup {
 		return $markup;
 	}
 
-	function close_ul_if_first_call_of_filter() {
-		if ( self::is_first_instance_of_type() ) {
-			self::close_ul_and_add_opening_div();
-		}
-	}
-
-	function is_first_instance_of_type() {
+	/**
+	 * Closes the <ul> if it's the first instance of the widget.
+	 *
+	 * @param string $markup The widget markup.
+	 * @return string $markup The filtered widget markup.
+	 */
+	public function maybe_close_ul( $markup ) {
 		if ( ! isset( self::$types_of_widgets_called[ $this->type_of_filter ] ) ) {
 			self::$types_of_widgets_called[ $this->type_of_filter ] = true;
-			return true;
+			return '</ul><div class="list-group">' . $markup;
 		}
-		return false;
-	}
-
-	function close_ul_and_add_opening_div() {
-		$this->markup = '</ul><div class="list-group">' . $this->markup;
+		return $markup;
 	}
 
 	function replace_parenthesized_number_with_badge_number() {
-		$regex = '/\((\d{1,3})\)/';
+		$regex            = '/\((\d{1,3})\)/';
 		$new_count_markup = "<span class='badge pull-right'>$1</span>";
-		$this->markup = preg_replace( $regex , $new_count_markup , $this->markup );
+		$this->markup     = preg_replace( $regex, $new_count_markup, $this->markup );
 	}
 
 	function remove_li_tags() {
