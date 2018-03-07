@@ -66,4 +66,18 @@ class Test_Bootstrap_Markup extends \WP_UnitTestCase {
 		$this->assertEquals( $original_markup, $this->instance->maybe_close_ul( $original_markup ) );
 	}
 
+	/**
+	 * Test badge_number().
+	 *
+	 * @covers Bootstrap_Markup::badge_number()
+	 */
+	public function test_badge_number() {
+		$number = '3';
+		$badge  = "<span class='badge pull-right'>%s</span>";
+
+		// Without parentheses around the number, this shouldn't filter the markup.
+		$this->assertNotContains( sprintf( $badge, $number ), $this->instance->badge_number( sprintf( '<div>%s</div>', $number ) ) );
+		$this->assertContains( sprintf( $badge, $number ), $this->instance->badge_number( sprintf( '<div>(%s)</div>', $number ) ) );
+	}
+
 }

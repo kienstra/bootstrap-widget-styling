@@ -62,8 +62,8 @@ class Bootstrap_Markup {
 	 */
 	public function filter_markup( $markup ) {
 		$markup       = $this->maybe_remove_ul( $markup );
-		$this->markup = $this->maybe_close_ul( $markup );
-		$this->replace_parenthesized_number_with_badge_number();
+		$markup       = $this->maybe_close_ul( $markup );
+		$this->markup = $this->badge_number( $markup );
 		$this->remove_li_tags();
 		$this->add_list_group_class_to_anchor_tags();
 		$this->move_span_inside_anchor_closing_tag();
@@ -97,10 +97,14 @@ class Bootstrap_Markup {
 		return $markup;
 	}
 
-	function replace_parenthesized_number_with_badge_number() {
-		$regex            = '/\((\d{1,3})\)/';
-		$new_count_markup = "<span class='badge pull-right'>$1</span>";
-		$this->markup     = preg_replace( $regex, $new_count_markup, $this->markup );
+	/**
+	 * Replaces a parenthesized number with a badge using Bootstrap markup.
+	 *
+	 * @param string $markup The widget markup.
+	 * @return string $markup The filtered widget markup.
+	 */
+	public function badge_number( $markup ) {
+		return preg_replace( '/\((\d{1,3})\)/', "<span class='badge pull-right'>$1</span>", $markup );
 	}
 
 	function remove_li_tags() {
