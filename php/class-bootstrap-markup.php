@@ -1,15 +1,36 @@
 <?php
+/**
+ * Bootstrap_Markup setting.
+ *
+ * @package BootstrapWidgetStyling
+ */
 
-// Filter widget markup
-class BWS_Filter {
+namespace BootstrapWidgetStyling;
+
+/**
+ * Bootstrap_Markup class.
+ */
+class Bootstrap_Markup {
+
+	/**
+	 * The instance of the plugin.
+	 *
+	 * @var Plugin
+	 */
+	public $plugin;
+
 	protected static $instance;
 	protected static $types_of_widgets_called = array();
-	protected $markup;
-	protected $type_of_filter;
+	public $markup;
+	public $type_of_filter;
 
-	private function __construct( $html_to_filter , $type_of_filter ) {
-		$this->markup = $html_to_filter;
-		$this->type_of_filter = $type_of_filter;
+	/**
+	 * Bootstrap_Markup constructor.
+	 *
+	 * @param Plugin $plugin The instance of the plugin.
+	 */
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
 	}
 
 	/**
@@ -19,10 +40,11 @@ class BWS_Filter {
 	 * @param string $type_of_filter The type of filter.
 	 * @return mixed
 	 */
-	public static function reformat( $html_to_filter, $type_of_filter ) {
-		self::$instance = new self( $html_to_filter, $type_of_filter );
-		self::$instance->get_filtered_markup();
-		return self::$instance->markup;
+	public function reformat( $html_to_filter, $type_of_filter ) {
+		$this->markup = $html_to_filter;
+		$this->$type_of_filter = $type_of_filter;
+		$this->get_filtered_markup();
+		return $this->markup;
 	}
 
 	function get_filtered_markup() {

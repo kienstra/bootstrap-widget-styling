@@ -108,7 +108,7 @@ class Widget_Output {
 	 * @return string $markup The filtered menu markup.
 	 */
 	public function menu_widget( $markup ) {
-		return \BWS_Filter::reformat( $markup, 'menu' );
+		return $this->plugin->components->bootstrap_markup->reformat( $markup, 'menu' );
 	}
 
 }
