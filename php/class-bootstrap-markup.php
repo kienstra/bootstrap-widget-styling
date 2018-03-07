@@ -34,7 +34,7 @@ class Bootstrap_Markup {
 	}
 
 	/**
-	 * Reformat the markup.
+	 * Gets the markup in Bootstrap format.
 	 *
 	 * @param string $html_to_filter The HTML to filter.
 	 * @param string $type_of_filter The type of filter.
@@ -42,13 +42,19 @@ class Bootstrap_Markup {
 	 */
 	public function reformat( $html_to_filter, $type_of_filter ) {
 		$this->markup = $html_to_filter;
-		$this->$type_of_filter = $type_of_filter;
-		$this->get_filtered_markup();
+		$this->type_of_filter = $type_of_filter;
+		$this->filter_markup( $html_to_filter );
 		return $this->markup;
 	}
 
-	function get_filtered_markup() {
-		$this->remove_ul_tags_if_filter_type_is_pages();
+	/**
+	 * Filters the markup to use Bootstrap format.
+	 *
+	 * @param string $markup The markup to filter.
+	 * @$return void
+	 */
+	public function filter_markup( $markup ) {
+		$this->markup = $this->maybe_remove_ul( $markup );
 		$this->close_ul_if_first_call_of_filter();
 		$this->replace_parenthesized_number_with_badge_number();
 		$this->remove_li_tags();
@@ -57,10 +63,17 @@ class Bootstrap_Markup {
 		$this->add_closing_div_depending_on_filter_type();
 	}
 
-	function remove_ul_tags_if_filter_type_is_pages() {
+	/**
+	 * Removes the <ul> elements if this is for a 'pages' widget.
+	 *
+	 * @param string $markup The markup to reformat.
+	 * @return string $markup The markup without <ul> tags if this is a 'Pages' widget.
+	 */
+	public function maybe_remove_ul( $markup ) {
 		if ( 'pages' === $this->type_of_filter ) {
-			$this->markup = preg_replace( '/<[\/]?ul.*?>/' , '' , $this->markup );
+			return preg_replace( '/<[\/]?ul[^>]*>/', '', $markup );
 		}
+		return $markup;
 	}
 
 	function close_ul_if_first_call_of_filter() {
