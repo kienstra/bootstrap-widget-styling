@@ -20,17 +20,6 @@ class Widget_Output {
 	public $plugin;
 
 	/**
-	 * Widgets to filter.
-	 *
-	 * @var array
-	 */
-	public $widgets = array(
-		'categories',
-		'pages',
-		'archives',
-	);
-
-	/**
 	 * Widget_Output constructor.
 	 *
 	 * @param Plugin $plugin Instance of the plugin.
@@ -48,13 +37,15 @@ class Widget_Output {
 		add_filter( 'get_search_form', array( $this, 'search_form' ) );
 		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
 		add_filter( 'wp_nav_menu_items', array( $this, 'reformat' ) );
+		add_action( 'widgets_init', array( $this, 'load_widget_files' ) );
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 
-		foreach ( $this->widgets as $widget ) {
+		foreach ( $this->plugin->widgets as $widget ) {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
 				if ( 'archives' === $widget ) {
 					add_filter( 'get_archives_link', array( $this, 'reformat' ) );
 					add_filter( 'dynamic_sidebar_params', array( $this, 'add_closing_div' ) );
-				} else {
+				} elseif ( 'categories' !== $widget ) {
 					add_filter( 'wp_list_' . $widget, array( $this, 'reformat' ) );
 				}
 			}
@@ -112,6 +103,40 @@ class Widget_Output {
 		$markup  = preg_replace( '/(<\/a>).*?(<span.+?<\/span>)/', '$2$1', $markup );
 		$markup .= '</div>';
 		return $markup;
+	}
+
+	/**
+	 * Loads the subclass widgets, based on whether their parent classes are present.
+	 *
+	 * Separate from Plugin::load_file() because this checks whether the parent class exists.
+	 * The class files are included later than Plugin::init(), with the core function wp_maybe_load_widgets().
+	 *
+	 * @return void
+	 */
+	public function load_widget_files() {
+		foreach ( $this->plugin->widgets as $widget ) {
+			$core_widget     = 'WP_Widget_' . ucwords( $widget );
+			$new_widget_file = __DIR__ . "/widgets/class-bws-widget-{$widget}.php";
+			if ( class_exists( $core_widget ) && file_exists( $new_widget_file ) ) {
+				include_once $new_widget_file;
+			}
+		}
+	}
+
+	/**
+	 * Unregisters the native WP widgets, and registers subclasses that output Bootstrap-formatted markup.
+	 *
+	 * @return void
+	 */
+	public function register_widgets() {
+		foreach ( $this->plugin->widgets as $widget ) {
+			$uppercase_widget = ucwords( $widget );
+			$new_widget       = __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget;
+			if ( class_exists( $new_widget ) ) {
+				unregister_widget( 'WP_Widget_' . $uppercase_widget );
+				register_widget( __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget );
+			}
+		}
 	}
 
 }

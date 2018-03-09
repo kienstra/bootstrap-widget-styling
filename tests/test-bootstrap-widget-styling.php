@@ -18,6 +18,7 @@ class Test_Bootstrap_Widget_Styling extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		wp_maybe_load_widgets();
 		require dirname( __DIR__ ) . '/bootstrap-widget-styling.php';
 	}
 

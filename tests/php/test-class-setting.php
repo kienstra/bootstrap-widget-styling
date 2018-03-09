@@ -26,6 +26,7 @@ class Test_Setting extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		wp_maybe_load_widgets();
 		$plugin         = Plugin::get_instance();
 		$this->instance = $plugin->components->setting;
 	}

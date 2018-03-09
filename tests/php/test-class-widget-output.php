@@ -26,7 +26,9 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$plugin         = Plugin::get_instance();
+		wp_maybe_load_widgets();
+		$plugin = Plugin::get_instance();
+		$plugin->init();
 		$this->instance = $plugin->components->widget_output;
 	}
 
@@ -41,6 +43,8 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'reformat' ) ) );
+		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'load_widget_files' ) ) );
+		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'register_widgets' ) ) );
 
 		update_option(
 			Setting::OPTION_NAME,
@@ -55,7 +59,6 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
 		$should_have_callbacks = array(
 			'wp_list_pages',
-			'wp_list_categories',
 			'get_archives_link',
 		);
 		foreach ( $should_have_callbacks as $tag_name ) {
@@ -157,6 +160,31 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->assertEquals( 0, strpos( $list, '<div class="list-group">' ) );
 		$this->assertContains( sprintf( "<span class='badge pull-right'>%s</span>", $count ), $list );
 		$this->assertContains( '<a class="list-group-item"', $list );
+	}
+
+	/**
+	 * Test load_widget_files().
+	 *
+	 * @covers Widget_Output::load_widget_files()
+	 */
+	public function test_load_widget_files() {
+		foreach ( $this->instance->plugin->widgets as $widget ) {
+			$this->assertTrue( class_exists( __NAMESPACE__ . '\BWS_Widget_' . ucwords( $widget ) ) );
+		}
+	}
+
+	/**
+	 * Test register_widgets().
+	 *
+	 * @covers Widget_Output::register_widgets()
+	 */
+	public function test_register_widgets() {
+		global $wp_widget_factory;
+		$this->instance->register_widgets();
+		foreach ( $this->instance->plugin->widgets as $widget ) {
+			$widget_key = __NAMESPACE__ . '\BWS_Widget_' . ucwords( $widget );
+			$this->assertTrue( isset( $wp_widget_factory->widgets[ $widget_key ] ) );
+		}
 	}
 
 }
