@@ -40,7 +40,7 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->instance->init();
 		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
-		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'menu_widget' ) ) );
+		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'reformat' ) ) );
 
 		update_option(
 			Setting::OPTION_NAME,
@@ -53,14 +53,14 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		remove_filter( 'wp_list_pages', 'BWS_Pages::filter' );
 
 		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
-		$should_have_closures = array(
+		$should_have_callbacks = array(
 			'wp_list_pages',
 			'wp_list_categories',
 			'get_archives_link',
 		);
-		foreach ( $should_have_closures as $tag_name ) {
+		foreach ( $should_have_callbacks as $tag_name ) {
 			$callback = array_shift( $wp_filter[ $tag_name ]->callbacks[10] );
-			$this->assertEquals( 'Closure', get_class( $callback['function'] ) );
+			$this->assertEquals( 'BootstrapWidgetStyling\Widget_Output', get_class( $callback['function'][0] ) );
 		}
 	}
 
@@ -124,29 +124,39 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test menu_widget().
+	 * Test reformat().
 	 *
-	 * @covers Widget_Output::menu_widget()
+	 * @covers Widget_Output::reformat()
 	 */
-	public function test_menu_widget() {
-		$menu_items        = array();
-		$number_menu_items = 5;
-		for ( $i = 0; $i < $number_menu_items; $i++ ) {
-			$menu_items[] = $this->factory()->post->create_and_get( array(
-				'post_type' => 'menu_item',
+	public function test_reformat() {
+		remove_all_filters( 'wp_list_categories' );
+		$first_category  = $this->factory()->category->create();
+		$second_category = $this->factory()->category->create();
+		$this->factory()->post->create( array(
+			'post_category' => array( $first_category ),
+		) );
+
+		$count = 5;
+		for ( $i = 0; $i < $count; $i++ ) {
+			$this->factory()->post->create( array(
+				'post_category' => array( $second_category ),
 			) );
 		}
-		$args            = (object) array(
-			'before'      => '',
-			'link_before' => '',
-			'after'       => '',
-			'link_after'  => '',
+		$list         = $this->instance->reformat( wp_list_categories( array(
+			'echo'       => false,
+			'show_count' => 1,
+		) ) );
+		$not_expected = array(
+			'</ul>',
+			'<li>',
+			'</li>',
 		);
-		$menu_markup     = walk_nav_menu_tree( $menu_items, 0, $args );
-		$filtered_markup = $this->instance->menu_widget( $menu_markup, $args );
-		$this->assertContains( '</ul><div class="list-group">', $filtered_markup );
-		$this->assertContains( '<a class="list-group-item"', $filtered_markup );
-		$this->assertNotContains( '<li', $filtered_markup );
+		foreach ( $not_expected as $tag ) {
+			$this->assertNotContains( $tag, $list );
+		}
+		$this->assertEquals( 0, strpos( $list, '<div class="list-group">' ) );
+		$this->assertContains( sprintf( "<span class='badge pull-right'>%s</span>", $count ), $list );
+		$this->assertContains( '<a class="list-group-item"', $list );
 	}
 
 }

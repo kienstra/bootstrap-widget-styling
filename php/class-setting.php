@@ -48,7 +48,7 @@ class Setting {
 	const DISABLED_VALUE = '1';
 
 	/**
-	 * Plugin instance
+	 * Plugin instance.
 	 *
 	 * @var Plugin
 	 */

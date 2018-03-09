@@ -54,6 +54,7 @@ class Plugin {
 	public $classes = array(
 		'setting',
 		'widget-output',
+		'bootstrap-markup',
 	);
 
 	/**
@@ -91,7 +92,6 @@ class Plugin {
 	 */
 	public function load_files() {
 		$files = array(
-			'class-bws-filter',
 			'class-bws-search-widget',
 		);
 		foreach ( $files as $file ) {
@@ -109,10 +109,11 @@ class Plugin {
 	 * @return void
 	 */
 	public function init_classes() {
-		$this->components                = new \stdClass();
-		$this->components->setting       = new Setting( $this );
-		$this->components->widget_output = new Widget_Output( $this );
-		$this->components->search_form   = new \BWS_Search_Widget( $this );
+		$this->components                   = new \stdClass();
+		$this->components->setting          = new Setting( $this );
+		$this->components->widget_output    = new Widget_Output( $this );
+		$this->components->bootstrap_markup = new Bootstrap_Markup( $this );
+		$this->components->search_form      = new \BWS_Search_Widget( $this );
 		$this->components->setting->init();
 		$this->components->widget_output->init();
 	}

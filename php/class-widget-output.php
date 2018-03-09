@@ -47,19 +47,15 @@ class Widget_Output {
 	public function init() {
 		add_filter( 'get_search_form', array( $this, 'search_form' ) );
 		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
-		add_filter( 'wp_nav_menu_items', array( $this, 'menu_widget' ) );
+		add_filter( 'wp_nav_menu_items', array( $this, 'reformat' ) );
 
 		foreach ( $this->widgets as $widget ) {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
 				if ( 'archives' === $widget ) {
-					add_filter( 'get_archives_link', function( $markup ) {
-						return \BWS_Filter::reformat( $markup, 'archives' );
-					} );
+					add_filter( 'get_archives_link', array( $this, 'reformat' ) );
 					add_filter( 'dynamic_sidebar_params', array( $this, 'add_closing_div' ) );
 				} else {
-					add_filter( 'wp_list_' . $widget, function( $markup ) use ( $widget ) {
-						return \BWS_Filter::reformat( $markup, $widget );
-					} );
+					add_filter( 'wp_list_' . $widget, array( $this, 'reformat' ) );
 				}
 			}
 		}
@@ -102,13 +98,20 @@ class Widget_Output {
 	}
 
 	/**
-	 * Filters the tag cloud markup.
+	 * Gets the markup in Bootstrap format.
 	 *
-	 * @param string $markup The menu cloud markup.
-	 * @return string $markup The filtered menu markup.
+	 * @param string $markup The HTML to reformat.
+	 * @return string $markup The reformatted markup of the widget.
 	 */
-	public function menu_widget( $markup ) {
-		return \BWS_Filter::reformat( $markup, 'menu' );
+	public function reformat( $markup ) {
+		$markup  = preg_replace( '/<\/?ul>/', '', $markup );
+		$markup  = preg_replace( '/<\/?li[^>]*>/', '', $markup );
+		$markup  = '<div class="list-group">' . $markup;
+		$markup  = preg_replace( '/\((\d{1,3})\)/', "<span class='badge pull-right'>$1</span>", $markup );
+		$markup  = str_replace( '<a', '<a class="list-group-item"', $markup );
+		$markup  = preg_replace( '/(<\/a>).*?(<span.+?<\/span>)/', '$2$1', $markup );
+		$markup .= '</div>';
+		return $markup;
 	}
 
 }
