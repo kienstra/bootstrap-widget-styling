@@ -95,14 +95,12 @@ class Widget_Output {
 	 * @return string $markup The reformatted markup of the widget.
 	 */
 	public function reformat( $markup ) {
-		$markup  = preg_replace( '/<\/?ul>/', '', $markup );
-		$markup  = preg_replace( '/<\/?li[^>]*>/', '', $markup );
-		$markup  = '<div class="list-group">' . $markup;
-		$markup  = preg_replace( '/\((\d{1,3})\)/', "<span class='badge pull-right'>$1</span>", $markup );
-		$markup  = str_replace( '<a', '<a class="list-group-item"', $markup );
-		$markup  = preg_replace( '/(<\/a>).*?(<span.+?<\/span>)/', '$2$1', $markup );
-		$markup .= '</div>';
-		return $markup;
+		$markup = preg_replace( '/<\/?ul>/', '', $markup );
+		$markup = preg_replace( '/<\/?li[^>]*>/', '', $markup );
+		$markup = preg_replace( '/\((\d{1,3})\)/', "<span class='badge pull-right'>$1</span>", $markup );
+		$markup = str_replace( '<a', '<a class="list-group-item"', $markup );
+		$markup = preg_replace( '/(<\/a>).*?(<span.+?<\/span>)/', '$2$1', $markup );
+		return sprintf( '<div class="list-group">%s</div>', $markup );
 	}
 
 	/**
