@@ -66,6 +66,7 @@ class Plugin {
 		'widget-categories',
 		'widget-meta',
 		'widget-pages',
+		'widget-recent-comments',
 		'widget-recent-posts',
 		'nav-menu-widget',
 	);

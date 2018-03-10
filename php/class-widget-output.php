@@ -108,7 +108,7 @@ class Widget_Output {
 				$new_widget       = __NAMESPACE__ . '\BWS_' . $uppercase_widget;
 				if ( class_exists( $new_widget ) ) {
 					unregister_widget( 'WP_' . $uppercase_widget );
-					register_widget( __NAMESPACE__ . '\BWS_' . $uppercase_widget );
+					register_widget( $new_widget );
 				}
 			}
 		}

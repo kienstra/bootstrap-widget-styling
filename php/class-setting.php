@@ -205,6 +205,7 @@ class Setting {
 	 */
 	public function is_disabled( $widget ) {
 		$options = get_option( 'bws_plugin_options' );
+		$widget  = str_replace( 'widget-', '', $widget );
 		$key     = "disable_{$widget}_widget";
 		return ( isset( $options[ $key ] ) && ( self::DISABLED_VALUE === $options[ $key ] ) );
 	}
