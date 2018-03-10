@@ -36,7 +36,6 @@ class Test_BWS_Widget_Categories extends \WP_UnitTestCase {
 	 * @covers BWS_Widget_Categories::widget().
 	 */
 	public function test_widget() {
-		remove_all_filters( 'wp_list_categories' );
 		$first_category  = $this->factory()->category->create();
 		$second_category = $this->factory()->category->create();
 		$this->factory()->post->create( array(

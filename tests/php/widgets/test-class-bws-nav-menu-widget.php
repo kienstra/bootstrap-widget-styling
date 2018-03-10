@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for class BWS_Widget_Archives.
+ * Tests for class BWS_Nav_Menu_Widget.
  *
  * @package BootstrapWidgetStyling
  */
@@ -8,12 +8,12 @@
 namespace BootstrapWidgetStyling;
 
 /**
- * Tests for class BWS_Widget_Archives.
+ * Tests for class BWS_Nav_Menu_Widget.
  */
-class Test_BWS_Widget_Archives extends \WP_UnitTestCase {
+class Test_BWS_Nav_Menu_Widget extends \WP_UnitTestCase {
 
 	/**
-	 * Instance of BWS_Widget_Archives.
+	 * Instance of BWS_Nav_Menu_Widget.
 	 *
 	 * @var object
 	 */
@@ -27,18 +27,29 @@ class Test_BWS_Widget_Archives extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		wp_maybe_load_widgets();
-		$this->instance = new BWS_Widget_Archives();
+		$this->instance = new BWS_Nav_Menu_Widget();
 	}
 
 	/**
 	 * Test widget().
 	 *
-	 * @covers BWS_Widget_Archives::widget().
+	 * @covers BWS_Nav_Menu_Widget::widget().
 	 */
 	public function test_widget() {
-		$count = 4;
+		$name            = 'Foo Menu';
+		$menu            = wp_create_nav_menu( $name );
+		$menu_item_title = 'Bar Title';
+		$count           = 4;
 		for ( $i = 0; $i < $count; $i++ ) {
-			$this->factory()->post->create();
+			wp_update_nav_menu_item(
+				$menu,
+				0,
+				array(
+					'menu-item-title'  => $menu_item_title,
+					'menu-item-url'    => get_home_url(),
+					'menu-item-status' => 'publish',
+				)
+			);
 		}
 
 		ob_start();
@@ -50,14 +61,13 @@ class Test_BWS_Widget_Archives extends \WP_UnitTestCase {
 				'after_widget'  => '',
 			),
 			array(
-				'count' => 1,
+				'nav_menu' => $menu,
 			)
 		);
 		$output = ob_get_clean();
+		$this->assertContains( $menu_item_title, $output );
 		$this->assertEquals( 0, strpos( $output, '<div class="list-group">' ) );
-		$this->assertContains( sprintf( "<span class='badge pull-right'>%s</span>", $count ), $output );
 		$this->assertContains( '<a class="list-group-item"', $output );
-		$this->assertNotContains( '<ul', $output );
 	}
 
 }

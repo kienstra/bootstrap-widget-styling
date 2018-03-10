@@ -36,7 +36,6 @@ class Test_BWS_Widget_Pages extends \WP_UnitTestCase {
 	 * @covers BWS_Widget_Pages::widget().
 	 */
 	public function test_widget() {
-		remove_all_filters( 'wp_list_archives' );
 		$count = 4;
 		for ( $i = 0; $i < $count; $i++ ) {
 			$this->factory()->post->create( array(

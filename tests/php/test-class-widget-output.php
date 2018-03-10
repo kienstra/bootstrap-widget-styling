@@ -42,7 +42,6 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->instance->init();
 		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
-		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'reformat' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'load_widget_files' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'register_widgets' ) ) );
 	}
@@ -132,7 +131,7 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 */
 	public function test_load_widget_files() {
 		foreach ( $this->instance->plugin->widgets as $widget ) {
-			$this->assertTrue( class_exists( __NAMESPACE__ . '\BWS_Widget_' . ucwords( $widget ) ) );
+			$this->assertTrue( class_exists( __NAMESPACE__ . '\BWS_' . ucwords( str_replace( '-', '_', $widget ), '_' ) ) );
 		}
 	}
 
@@ -145,7 +144,7 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		global $wp_widget_factory;
 		$this->instance->register_widgets();
 		foreach ( $this->instance->plugin->widgets as $widget ) {
-			$widget_key = __NAMESPACE__ . '\BWS_Widget_' . ucwords( $widget );
+			$widget_key = __NAMESPACE__ . '\BWS_' . ucwords( str_replace( '-', '_', $widget ), '_' );
 			$this->assertTrue( isset( $wp_widget_factory->widgets[ $widget_key ] ) );
 		}
 	}

@@ -10,7 +10,7 @@ namespace BootstrapWidgetStyling;
 /**
  * BWS_Nav_Menu_Widget class.
  */
-class BWS_Widget_Categories extends \WP_Widget_Categories {
+class BWS_Nav_Menu_Widget extends \WP_Nav_Menu_Widget {
 
 	/**
 	 * Gets the markup in Bootstrap format.

@@ -36,7 +36,6 @@ class Widget_Output {
 	public function init() {
 		add_filter( 'get_search_form', array( $this, 'search_form' ) );
 		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
-		add_filter( 'wp_nav_menu_items', array( $this, 'reformat' ) );
 		add_action( 'widgets_init', array( $this, 'load_widget_files' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
@@ -71,7 +70,7 @@ class Widget_Output {
 	 * @return string $markup The reformatted markup of the widget.
 	 */
 	public function reformat( $markup ) {
-		$markup = preg_replace( '/<\/?ul>/', '', $markup );
+		$markup = preg_replace( '/<\/?ul[^>]*>/', '', $markup );
 		$markup = preg_replace( '/<\/?li[^>]*>/', '', $markup );
 		$markup = preg_replace( '/\((\d{1,3})\)/', "<span class='badge pull-right'>$1</span>", $markup );
 		$markup = str_replace( '<a', '<a class="list-group-item"', $markup );
@@ -89,8 +88,8 @@ class Widget_Output {
 	 */
 	public function load_widget_files() {
 		foreach ( $this->plugin->widgets as $widget ) {
-			$core_widget     = 'WP_Widget_' . ucwords( $widget );
-			$new_widget_file = __DIR__ . "/widgets/class-bws-widget-{$widget}.php";
+			$core_widget     = 'WP_' . ucwords( str_replace( '-', '_', $widget ), '_' );
+			$new_widget_file = __DIR__ . "/widgets/class-bws-{$widget}.php";
 			if ( class_exists( $core_widget ) && file_exists( $new_widget_file ) ) {
 				include_once $new_widget_file;
 			}
@@ -105,11 +104,11 @@ class Widget_Output {
 	public function register_widgets() {
 		foreach ( $this->plugin->widgets as $widget ) {
 			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
-				$uppercase_widget = ucwords( $widget );
-				$new_widget       = __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget;
+				$uppercase_widget = ucwords( str_replace( '-', '_', $widget ), '_' );
+				$new_widget       = __NAMESPACE__ . '\BWS_' . $uppercase_widget;
 				if ( class_exists( $new_widget ) ) {
-					unregister_widget( 'WP_Widget_' . $uppercase_widget );
-					register_widget( __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget );
+					unregister_widget( 'WP_' . $uppercase_widget );
+					register_widget( __NAMESPACE__ . '\BWS_' . $uppercase_widget );
 				}
 			}
 		}
