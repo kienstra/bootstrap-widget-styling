@@ -45,43 +45,6 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'reformat' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'load_widget_files' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'register_widgets' ) ) );
-
-		update_option(
-			Setting::OPTION_NAME,
-			array(
-				'disable_categories_widget' => Setting::DISABLED_VALUE,
-				'disable_pages_widget'      => 0,
-			)
-		);
-		remove_filter( 'wp_list_categories', 'BWS_Categories::filter' );
-		remove_filter( 'wp_list_pages', 'BWS_Pages::filter' );
-
-		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
-		$should_have_callbacks = array(
-			'wp_list_pages',
-			'get_archives_link',
-		);
-		foreach ( $should_have_callbacks as $tag_name ) {
-			$callback = array_shift( $wp_filter[ $tag_name ]->callbacks[10] );
-			$this->assertEquals( 'BootstrapWidgetStyling\Widget_Output', get_class( $callback['function'][0] ) );
-		}
-	}
-
-	/**
-	 * Test add_closing_div().
-	 *
-	 * @covers Widget_Output::add_closing_div()
-	 */
-	public function test_add_closing_div() {
-		$initial_markup  = '<div>Example Content';
-		$params          = array(
-			array(
-				'widget_name'  => 'Archives',
-				'after_widget' => $initial_markup,
-			),
-		);
-		$filtered_params = $this->instance->add_closing_div( $params );
-		$this->assertEquals( '</div>' . $initial_markup, $filtered_params[0]['after_widget'] );
 	}
 
 	/**

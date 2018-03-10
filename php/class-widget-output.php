@@ -39,30 +39,6 @@ class Widget_Output {
 		add_filter( 'wp_nav_menu_items', array( $this, 'reformat' ) );
 		add_action( 'widgets_init', array( $this, 'load_widget_files' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
-
-		foreach ( $this->plugin->widgets as $widget ) {
-			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
-				if ( 'archives' === $widget ) {
-					add_filter( 'get_archives_link', array( $this, 'reformat' ) );
-					add_filter( 'dynamic_sidebar_params', array( $this, 'add_closing_div' ) );
-				} elseif ( 'categories' !== $widget ) {
-					add_filter( 'wp_list_' . $widget, array( $this, 'reformat' ) );
-				}
-			}
-		}
-	}
-
-	/**
-	 * Adds a closing </div> to the 'Archives' widget.
-	 *
-	 * @param array $params The parameters for the widget output callback.
-	 * @return array $params The filtered parameters.
-	 */
-	public function add_closing_div( $params ) {
-		if ( isset( $params[0]['widget_name'] ) && ( 'Archives' === $params[0]['widget_name'] ) ) {
-			$params[0]['after_widget'] = '</div>' . $params[0]['after_widget'];
-		}
-		return $params;
 	}
 
 	/**
@@ -128,11 +104,13 @@ class Widget_Output {
 	 */
 	public function register_widgets() {
 		foreach ( $this->plugin->widgets as $widget ) {
-			$uppercase_widget = ucwords( $widget );
-			$new_widget       = __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget;
-			if ( class_exists( $new_widget ) ) {
-				unregister_widget( 'WP_Widget_' . $uppercase_widget );
-				register_widget( __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget );
+			if ( ! $this->plugin->components->setting->is_disabled( $widget ) ) {
+				$uppercase_widget = ucwords( $widget );
+				$new_widget       = __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget;
+				if ( class_exists( $new_widget ) ) {
+					unregister_widget( 'WP_Widget_' . $uppercase_widget );
+					register_widget( __NAMESPACE__ . '\BWS_Widget_' . $uppercase_widget );
+				}
 			}
 		}
 	}
