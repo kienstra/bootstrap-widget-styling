@@ -62,7 +62,6 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 */
 	public function test_load_files() {
 		$classes = array(
-			'BWS_Search_Widget',
 			__NAMESPACE__ . '\Setting',
 			__NAMESPACE__ . '\Widget_Output',
 			__NAMESPACE__ . '\BWS_Widget_Categories',

@@ -38,33 +38,10 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 * @covers Widget_Output::init()
 	 */
 	public function test_init() {
-		global $wp_filter;
 		$this->instance->init();
-		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'load_widget_files' ) ) );
 		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'register_widgets' ) ) );
-	}
-
-	/**
-	 * Test search_form().
-	 *
-	 * @covers Widget_Output::search_form()
-	 */
-	public function test_search_form() {
-		remove_all_filters( 'get_search_form' );
-		$bootstrap_classes = 'class="btn btn-primary btn-med"';
-		$form              = get_search_form( false );
-		$filtered_form     = $this->instance->search_form( $form );
-		$this->assertContains( $bootstrap_classes, $filtered_form );
-		update_option(
-			Setting::OPTION_NAME,
-			array(
-				Setting::DISABLE_SEARCH_WIDGET => Setting::DISABLED_VALUE,
-			)
-		);
-		$filtered_form = $this->instance->search_form( $form );
-		$this->assertNotContains( $bootstrap_classes, $filtered_form );
 	}
 
 	/**

@@ -68,6 +68,7 @@ class Plugin {
 		'widget-pages',
 		'widget-recent-comments',
 		'widget-recent-posts',
+		'widget-search',
 		'nav-menu-widget',
 	);
 
@@ -105,13 +106,6 @@ class Plugin {
 	 * @return void
 	 */
 	public function load_files() {
-		$files = array(
-			'class-bws-search-widget',
-		);
-		foreach ( $files as $file ) {
-			include_once dirname( plugin_dir_path( __FILE__ ) ) . "/includes/{$file}.php";
-		}
-
 		foreach ( $this->classes as $class ) {
 			include_once __DIR__ . "/class-{$class}.php";
 		}
@@ -126,7 +120,6 @@ class Plugin {
 		$this->components                = new \stdClass();
 		$this->components->setting       = new Setting( $this );
 		$this->components->widget_output = new Widget_Output( $this );
-		$this->components->search_form   = new \BWS_Search_Widget( $this );
 		$this->components->setting->init();
 		$this->components->widget_output->init();
 	}

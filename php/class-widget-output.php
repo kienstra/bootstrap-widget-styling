@@ -34,23 +34,9 @@ class Widget_Output {
 	 * @return void
 	 */
 	public function init() {
-		add_filter( 'get_search_form', array( $this, 'search_form' ) );
 		add_filter( 'wp_tag_cloud', array( $this, 'tag_cloud' ) );
 		add_action( 'widgets_init', array( $this, 'load_widget_files' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
-	}
-
-	/**
-	 * Filters the markup of the search form.
-	 *
-	 * @param string $form The markup of the search form.
-	 * @return string $form The filtered markup of the search form.
-	 */
-	public function search_form( $form ) {
-		if ( ! $this->plugin->components->setting->is_disabled( 'search' ) ) {
-			return \BWS_Search_Widget::filter( $form );
-		}
-		return $form;
 	}
 
 	/**
