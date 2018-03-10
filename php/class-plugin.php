@@ -62,9 +62,10 @@ class Plugin {
 	 * @var array
 	 */
 	public $widgets = array(
-		'widget-categories',
 		'widget-archives',
+		'widget-categories',
 		'widget-pages',
+		'widget-recent-posts',
 		'nav-menu-widget',
 	);
 
