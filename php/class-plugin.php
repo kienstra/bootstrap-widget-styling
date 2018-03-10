@@ -64,6 +64,7 @@ class Plugin {
 	public $widgets = array(
 		'widget-archives',
 		'widget-categories',
+		'widget-meta',
 		'widget-pages',
 		'widget-recent-posts',
 		'nav-menu-widget',
