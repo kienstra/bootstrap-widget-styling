@@ -25,6 +25,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		wp_maybe_load_widgets();
 		$this->plugin = Plugin::get_instance();
 	}
 
@@ -61,10 +62,9 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 */
 	public function test_load_files() {
 		$classes = array(
-			'BWS_Search_Widget',
 			__NAMESPACE__ . '\Setting',
 			__NAMESPACE__ . '\Widget_Output',
-			__NAMESPACE__ . '\Bootstrap_Markup',
+			__NAMESPACE__ . '\BWS_Widget_Categories',
 		);
 
 		foreach ( $classes as $class ) {
@@ -79,9 +79,6 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 */
 	public function test_init_classes() {
 		$this->plugin->init();
-		$this->assertEquals( __NAMESPACE__ . '\Setting', get_class( $this->plugin->components->setting ) );
-		$this->assertEquals( __NAMESPACE__ . '\Widget_Output', get_class( $this->plugin->components->widget_output ) );
-		$this->assertEquals( __NAMESPACE__ . '\Bootstrap_Markup', get_class( $this->plugin->components->bootstrap_markup ) );
 		$this->assertEquals( 10, has_action( 'admin_menu', array( $this->plugin->components->setting, 'options_page' ) ) );
 	}
 

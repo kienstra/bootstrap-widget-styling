@@ -26,7 +26,9 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$plugin         = Plugin::get_instance();
+		wp_maybe_load_widgets();
+		$plugin = Plugin::get_instance();
+		$plugin->init();
 		$this->instance = $plugin->components->widget_output;
 	}
 
@@ -36,70 +38,10 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 * @covers Widget_Output::init()
 	 */
 	public function test_init() {
-		global $wp_filter;
 		$this->instance->init();
-		$this->assertEquals( 10, has_filter( 'get_search_form', array( $this->instance, 'search_form' ) ) );
 		$this->assertEquals( 10, has_filter( 'wp_tag_cloud', array( $this->instance, 'tag_cloud' ) ) );
-		$this->assertEquals( 10, has_filter( 'wp_nav_menu_items', array( $this->instance, 'reformat' ) ) );
-
-		update_option(
-			Setting::OPTION_NAME,
-			array(
-				'disable_categories_widget' => Setting::DISABLED_VALUE,
-				'disable_pages_widget'      => 0,
-			)
-		);
-		remove_filter( 'wp_list_categories', 'BWS_Categories::filter' );
-		remove_filter( 'wp_list_pages', 'BWS_Pages::filter' );
-
-		$this->assertEquals( 10, has_filter( 'dynamic_sidebar_params', array( $this->instance, 'add_closing_div' ) ) );
-		$should_have_callbacks = array(
-			'wp_list_pages',
-			'wp_list_categories',
-			'get_archives_link',
-		);
-		foreach ( $should_have_callbacks as $tag_name ) {
-			$callback = array_shift( $wp_filter[ $tag_name ]->callbacks[10] );
-			$this->assertEquals( 'BootstrapWidgetStyling\Widget_Output', get_class( $callback['function'][0] ) );
-		}
-	}
-
-	/**
-	 * Test add_closing_div().
-	 *
-	 * @covers Widget_Output::add_closing_div()
-	 */
-	public function test_add_closing_div() {
-		$initial_markup  = '<div>Example Content';
-		$params          = array(
-			array(
-				'widget_name'  => 'Archives',
-				'after_widget' => $initial_markup,
-			),
-		);
-		$filtered_params = $this->instance->add_closing_div( $params );
-		$this->assertEquals( '</div>' . $initial_markup, $filtered_params[0]['after_widget'] );
-	}
-
-	/**
-	 * Test search_form().
-	 *
-	 * @covers Widget_Output::search_form()
-	 */
-	public function test_search_form() {
-		remove_all_filters( 'get_search_form' );
-		$bootstrap_classes = 'class="btn btn-primary btn-med"';
-		$form              = get_search_form( false );
-		$filtered_form     = $this->instance->search_form( $form );
-		$this->assertContains( $bootstrap_classes, $filtered_form );
-		update_option(
-			Setting::OPTION_NAME,
-			array(
-				Setting::DISABLE_SEARCH_WIDGET => Setting::DISABLED_VALUE,
-			)
-		);
-		$filtered_form = $this->instance->search_form( $form );
-		$this->assertNotContains( $bootstrap_classes, $filtered_form );
+		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'load_widget_files' ) ) );
+		$this->assertEquals( 10, has_action( 'widgets_init', array( $this->instance, 'register_widgets' ) ) );
 	}
 
 	/**
@@ -157,6 +99,31 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 		$this->assertEquals( 0, strpos( $list, '<div class="list-group">' ) );
 		$this->assertContains( sprintf( "<span class='badge pull-right'>%s</span>", $count ), $list );
 		$this->assertContains( '<a class="list-group-item"', $list );
+	}
+
+	/**
+	 * Test load_widget_files().
+	 *
+	 * @covers Widget_Output::load_widget_files()
+	 */
+	public function test_load_widget_files() {
+		foreach ( $this->instance->plugin->widgets as $widget ) {
+			$this->assertTrue( class_exists( __NAMESPACE__ . '\BWS_' . ucwords( str_replace( '-', '_', $widget ), '_' ) ) );
+		}
+	}
+
+	/**
+	 * Test register_widgets().
+	 *
+	 * @covers Widget_Output::register_widgets()
+	 */
+	public function test_register_widgets() {
+		global $wp_widget_factory;
+		$this->instance->register_widgets();
+		foreach ( $this->instance->plugin->widgets as $widget ) {
+			$widget_key = __NAMESPACE__ . '\BWS_' . ucwords( str_replace( '-', '_', $widget ), '_' );
+			$this->assertTrue( isset( $wp_widget_factory->widgets[ $widget_key ] ) );
+		}
 	}
 
 }
