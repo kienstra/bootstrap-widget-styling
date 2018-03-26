@@ -14,9 +14,9 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 
 * Gives Bootstrap styles to widgets: "Categories," "Archives," "Pages," "Search," "Recent Posts," "Recent Comments," "Custom Menu," "Meta," and "Tag Cloud."
 * Doesn't send any more files to the browser, but you must have Bootstrap 3 or later.
+* Doesn't work with "Archives" and "Categories" widgets with dropdowns.
 * Disable plugin for certain widgets, using "Settings" page.
 * Works with all widgets in Bootstrap themes "evolve," and "Unite." Mostly works on "DevDmBootstrap3" (except for "Search"). Doesn't work at all on "The Bootstrap," "Radiant," "Customizr," and "Inkzine."
-* Doesn't work if you have more than one of each kind of widget on a page. For example, two "Categories" widgets.
 * No setup needed, unless you want to disable it for certain widgets.
 
 == Installation ==
@@ -31,7 +31,7 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 Twitter Bootstrap 3 or later.
 
 = Will this change the rest of my page's styles? =
-No, this doesn't output any stylesheets. It only formats widgets so they can use Bootstrap styles.
+No, this doesn't use a stylesheet. It only formats widgets so they can use Bootstrap styles.
 
 == Screenshots ==
 
