@@ -185,11 +185,11 @@ class Setting {
 		foreach ( $this->widgets as $widget ) {
 			$callback = function () use ( $widget ) {
 				$plugin                 = Plugin::get_instance();
-				$disable_widget_setting = $plugin->setting->is_disabled( $widget );
+				$disable_widget_setting = $plugin->components->setting->is_disabled( $widget );
 				$name                   = 'bws_plugin_options[disable_' . $widget . '_widget]';
 
 				?>
-				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>" <?php checked( $disable_widget_setting, '1', true ); ?> value="<?php echo esc_attr( Setting::DISABLED_VALUE ); ?>"/>
+				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>" <?php checked( $disable_widget_setting, Setting::DISABLED_VALUE, true ); ?> value="<?php echo esc_attr( Setting::DISABLED_VALUE ); ?>"/>
 				<?php
 			};
 			// translators: %s: the name of the widget.
