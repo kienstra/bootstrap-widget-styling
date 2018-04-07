@@ -1,0 +1,18 @@
+{
+    "name": "root/bootstrap-widget-styling",
+    "authors": [
+        {
+            "name": "Ryan Kienstra",
+            "email": "ryan.kienstra@xwp.co"
+        }
+    ],
+    "version": "1.0.0",
+    "require": {
+        "php": ">=5.2"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "*",
+        "wimg/php-compatibility": "*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+    }
+}
