@@ -7,7 +7,7 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 **Tags:** [Bootstrap](https://wordpress.org/plugins/tags/Bootstrap), [widgets](https://wordpress.org/plugins/tags/widgets), [mobile](https://wordpress.org/plugins/tags/mobile), [responsive](https://wordpress.org/plugins/tags/responsive), [default widgets](https://wordpress.org/plugins/tags/default-widgets)  
 **Requires at least:** 3.9  
 **Tested up to:** 4.9  
-**Stable tag:** 1.0.3  
+**Stable tag:** 1.0.4  
 **License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)  
 **Donate link:** http://jdrf.org/get-involved/ways-to-donate/  
 **Requires PHP:** 5.3  
@@ -63,7 +63,8 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 ## Changelog ##
 
 ### 1.0.4 ###
-* Fixed issue with multiple 'Archives' or 'Categories' widgets. And improved how the markup is reformatted, removing the need for the JS file.
+* Fixed issue with multiple 'Archives' or 'Categories' widgets.
+* Improve how the markup is reformatted, removing the need for the JS file.
 
 ### 1.0.3 ###
 * Added "Custom Menu" widget Bootstrap styling. The widget looks better when it has only one level of navigation.
