@@ -3,10 +3,11 @@ Contributors: ryankienstra
 Donate link: http://jdrf.org/get-involved/ways-to-donate/
 Tags: Bootstrap, widgets, mobile, responsive, default widgets
 Requires at least: 3.9
-Tested up to: 4.9.4
+Tested up to: 4.9
 Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 5.3
 
 Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 

@@ -6,10 +6,11 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 **Contributors:** [ryankienstra](https://profiles.wordpress.org/ryankienstra)  
 **Tags:** [Bootstrap](https://wordpress.org/plugins/tags/Bootstrap), [widgets](https://wordpress.org/plugins/tags/widgets), [mobile](https://wordpress.org/plugins/tags/mobile), [responsive](https://wordpress.org/plugins/tags/responsive), [default widgets](https://wordpress.org/plugins/tags/default-widgets)  
 **Requires at least:** 3.9  
-**Tested up to:** 4.9.4  
+**Tested up to:** 4.9  
 **Stable tag:** 1.0.3  
 **License:** [GPLv2 or later](http://www.gnu.org/licenses/gpl-2.0.html)  
 **Donate link:** http://jdrf.org/get-involved/ways-to-donate/  
+**Requires PHP:** 5.3  
 
 [![Build Status](https://travis-ci.org/kienstra/bootstrap-widget-styling.svg?branch=master)](https://travis-ci.org/kienstra/bootstrap-widget-styling) 
 
