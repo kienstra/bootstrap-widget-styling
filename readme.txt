@@ -45,7 +45,7 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 == Changelog ==
 
 = 1.0.4 =
-* Fixed issue with multiple 'Archives' or 'Categories' widgets.
+* Fix issue with multiple 'Archives' or 'Categories' widgets.
 * Improve how the markup is reformatted, removing the need for the JS file.
 
 = 1.0.3 =
