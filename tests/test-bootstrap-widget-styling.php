@@ -19,13 +19,13 @@ class Test_Bootstrap_Widget_Styling extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		wp_maybe_load_widgets();
-		require dirname( __DIR__ ) . '/bootstrap-widget-styling.php';
+		require_once dirname( __DIR__ ) . '/bootstrap-widget-styling.php';
 	}
 
 	/**
 	 * Test main plugin file
 	 *
-	 * @see widget-live-editor.php
+	 * @see bootstrap-widget-styling.php
 	 */
 	public function test_class_exists() {
 		$this->assertTrue( class_exists( __NAMESPACE__ . '\Plugin' ) );
