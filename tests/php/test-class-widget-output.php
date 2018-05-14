@@ -107,6 +107,7 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	 * @covers Widget_Output::load_widget_files()
 	 */
 	public function test_load_widget_files() {
+		$this->instance->load_widget_files();
 		foreach ( $this->instance->plugin->widgets as $widget ) {
 			$this->assertTrue( class_exists( __NAMESPACE__ . '\BWS_' . ucwords( str_replace( '-', '_', $widget ), '_' ) ) );
 		}
