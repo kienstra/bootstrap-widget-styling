@@ -33,12 +33,14 @@ class BWS_Widget_Recent_Posts extends \WP_Widget_Recent_Posts {
 				$post_date_text    = ( isset( $initial_post_date ) && property_exists( $initial_post_date, 'textContent' ) ) ? $initial_post_date->textContent : '';
 				$post_date_element = ! empty( $post_date_text ) ? sprintf( '<span class="post-date label label-primary pull-right">%s</span>', esc_html( $post_date_text ) ) : '';
 				$post_title        = str_replace( $post_date_text, '', $li->textContent );
-				$list_group       .= sprintf(
-					'<a href="%s" class="list-group-item">%s %s</a>',
-					esc_url( $anchor->item( $anchor->length - 1 )->attributes->getNamedItem( 'href' )->nodeValue ),  // phpcs:enable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
-					esc_html( $post_title ),
-					$post_date_element
-				);
+				if ( ! empty( $anchor->item( $anchor->length - 1 )->attributes->getNamedItem( 'href' )->nodeValue ) ) {
+					$list_group .= sprintf(
+						'<a href="%s" class="list-group-item">%s %s</a>',
+						esc_url( $anchor->item( $anchor->length - 1 )->attributes->getNamedItem( 'href' )->nodeValue ),  // phpcs:enable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+						esc_html( $post_title ),
+						wp_kses_post( $post_date_element )
+					);
+				}
 			}
 		}
 
