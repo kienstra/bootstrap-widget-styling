@@ -21,7 +21,9 @@ class BWS_Widget_Recent_Comments extends \WP_Widget_Recent_Comments {
 	public function widget( $args, $instance ) {
 		ob_start();
 		parent::widget( $args, $instance );
-		$output = ob_get_clean();
+
+		// DOMDocument::loadHTML raises an error in parsing some HTML5 elements, like <aside>.
+		$output = str_replace( 'aside', 'div', ob_get_clean() );
 		$dom    = new \DOMDocument();
 		$dom->loadHTML( $output );
 		$list_group = '<div class="list-group">';
