@@ -13,11 +13,13 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 
 == Description ==
 
-* Gives Bootstrap styles to widgets: "Categories," "Archives," "Pages," "Search," "Recent Posts," "Recent Comments," "Custom Menu," "Meta," and "Tag Cloud."
-* Doesn't send any more files to the browser, but you must have Bootstrap 3 or later.
-* Doesn't work with "Archives" and "Categories" widgets with dropdowns.
-* Disable plugin for certain widgets, using "Settings" page.
-* Works with all widgets in Bootstrap themes "evolve," and "Unite." Mostly works on "DevDmBootstrap3" (except for "Search"). Doesn't work at all on "The Bootstrap," "Radiant," "Customizr," and "Inkzine."
+* Gives Bootstrap styles to Core widgets: "Categories," "Archives," "Pages," "Search," "Recent Posts," "Recent Comments," "Custom Menu," "Meta," and "Tag Cloud."
+* Doesn't send any files to the browser, but you must have Bootstrap 3 or later.
+* Doesn't apply with "Archives" and "Categories" widgets with dropdowns.
+* Disable plugin for certain widget types, using "Settings" page.
+* Works with all widgets in the themes "DevDmBootstrap4" and "WP Bootstrap 4," and "WP Bootstrap Starter."
+* Works with all widgets except for Search on "DevDmBootstrap3," "BPT Bootstrap," and "BootstrapFast."
+* Doesn't work at all on "The Bootstrap," "Radiant," "Customizr," and "Inkzine."
 * No setup needed, unless you want to disable it for certain widgets.
 
 == Installation ==
@@ -41,7 +43,7 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 3. Click anywhere in the row.
 4. Bootstrap styling, with post counts and dates.
 5. The "Tag Cloud" widget.
- 
+
 == Changelog ==
 
 = 1.0.4 =
