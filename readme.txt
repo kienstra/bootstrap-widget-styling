@@ -13,11 +13,11 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 
 == Description ==
 
-* Gives Bootstrap styles to Core widgets: "Categories," "Archives," "Pages," "Search," "Recent Posts," "Recent Comments," "Custom Menu," "Meta," and "Tag Cloud."
+* Gives Bootstrap styling to 9 Core widgets: Archives, Categories, Custom Menu, Meta, Pages, Recent Comments, Recent Posts, Search, and Tag Cloud.
 * Doesn't send any files to the browser, but you must have Bootstrap 3 or later.
-* Doesn't apply with "Archives" and "Categories" widgets with dropdowns.
+* Doesn't apply to Archives and Categories widgets with dropdowns.
 * Disable plugin for certain widget types, using "Settings" page.
-* Works with all widgets in the themes "DevDmBootstrap4" and "WP Bootstrap 4," and "WP Bootstrap Starter."
+* Works with all widgets in the themes "DevDmBootstrap4," "WP Bootstrap 4," and "WP Bootstrap Starter."
 * Works with all widgets except for Search on "DevDmBootstrap3," "BPT Bootstrap," and "BootstrapFast."
 * Doesn't work at all on "The Bootstrap," "Radiant," "Customizr," and "Inkzine."
 * No setup needed, unless you want to disable it for certain widgets.
@@ -44,12 +44,12 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 2. View from a tablet.
 3. Click anywhere in the row.
 4. Bootstrap styling, with post counts and dates.
-5. The "Tag Cloud" widget.
+5. The Tag Cloud widget.
 
 == Changelog ==
 
 = 1.0.4 =
-* Fix issue with multiple 'Archives' or 'Categories' widgets.
+* Fix issue with multiple Archives or Categories widgets.
 * Improve how the markup is reformatted, removing the need for the JS file.
 
 = 1.0.3 =
@@ -69,10 +69,10 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 == Upgrade Notice ==
 
 = 1.0.4 =
-Fixed issue with multiple 'Archives' or 'Categories' widgets.
+Fixed issue with multiple Archives or Categories widgets.
 
 = 1.0.3 =
-"Custom Menu" widget support added. The widget looks better when it has only one level of navigation.
+Custom Menu widget support added. The widget looks better when it has only one level of navigation.
 
 = 1.0.2 =
 Small bug fix.
