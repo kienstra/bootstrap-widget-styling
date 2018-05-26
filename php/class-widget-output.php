@@ -65,6 +65,33 @@ class Widget_Output {
 	}
 
 	/**
+	 * Gets Bootstrap-formatted markup, using \DOMDocument.
+	 *
+	 * This allows iterating through all of the <li> elements.
+	 * And it has a simpler way of finding attributes.
+	 *
+	 * @param string $markup The HTML to reformat.
+	 * @return string $list_group The markup, in a Bootstrap format for <div class="list-group">.
+	 */
+	public function reformat_dom_document( $markup ) {
+		$dom = new \DOMDocument();
+		$dom->loadHTML( $markup );
+		$list_group = '<div class="list-group">';
+		foreach ( $dom->getElementsByTagName( 'li' ) as $li ) {
+			$anchor = $li->getElementsByTagName( 'a' );
+			if ( ! empty( $anchor->item( $anchor->length - 1 )->attributes->getNamedItem( 'href' )->nodeValue ) ) {
+				$list_group .= sprintf(
+					'<a href="%s" class="list-group-item">%s</a>',
+					esc_url( $anchor->item( $anchor->length - 1 )->attributes->getNamedItem( 'href' )->nodeValue ),
+					esc_html( $li->textContent ) // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+				);
+			}
+		}
+		$list_group .= '</div>';
+		return $list_group;
+	}
+
+	/**
 	 * Loads the subclass widgets, based on whether their parent classes are present.
 	 *
 	 * Separate from Plugin::load_file() because this checks whether the parent class exists.
