@@ -41,16 +41,16 @@ class Test_BWS_Widget_Meta extends \WP_UnitTestCase {
 			array(
 				'before_title'  => '',
 				'after_title'   => '',
-				'before_widget' => '',
-				'after_widget'  => '',
+				'before_widget' => '<aside>',
+				'after_widget'  => '</aside>',
 			),
 			array(
 				'count' => 1,
 			)
 		);
 		$output = ob_get_clean();
-		$this->assertEquals( 0, strpos( $output, '<div class="list-group">' ) );
-		$this->assertContains( '<a class="list-group-item"', $output );
+		$this->assertContains( '<div class="list-group">', $output );
+		$this->assertContains( 'class="list-group-item"', $output );
 		$this->assertNotContains( '<ul', $output );
 	}
 

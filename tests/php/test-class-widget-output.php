@@ -102,6 +102,31 @@ class Test_Widget_Output extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test reformat_dom_document().
+	 *
+	 * Uses markup copied from WP_Widget_Meta.
+	 *
+	 * @covers Widget_Output::reformat_dom_document()
+	 */
+	public function test_reformat_dom_document() {
+		ob_start();
+		?>
+		<ul>
+			<?php wp_register(); ?>
+			<li><?php wp_loginout(); ?></li>
+			<li><a href="<?php echo esc_url( get_bloginfo( 'rss2_url' ) ); ?>"><?php esc_html_e( 'Entries <abbr title="Really Simple Syndication">RSS</abbr>' ); ?></a></li>
+			<li><a href="<?php echo esc_url( get_bloginfo( 'comments_rss2_url' ) ); ?>"><?php esc_html_e( 'Comments <abbr title="Really Simple Syndication">RSS</abbr>' ); ?></a></li>
+		</ul>
+		<?php
+		$markup = $this->instance->reformat_dom_document( ob_get_clean() );
+
+		$this->assertEquals( 0, strpos( $markup, '<div class="list-group">' ) );
+		$this->assertContains( 'class="list-group-item"', $markup );
+		$this->assertContains( 'Entries RSS', $markup );
+		$this->assertContains( 'Comments RSS', $markup );
+	}
+
+	/**
 	 * Test load_widget_files().
 	 *
 	 * @covers Widget_Output::load_widget_files()
