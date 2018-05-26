@@ -50,8 +50,8 @@ class Test_BWS_Widget_Recent_Comments extends \WP_UnitTestCase {
 			array(
 				'before_title'  => '',
 				'after_title'   => '',
-				'before_widget' => '',
-				'after_widget'  => '',
+				'before_widget' => '<section>',
+				'after_widget'  => '</section>',
 			),
 			array(
 				'count' => 1,
