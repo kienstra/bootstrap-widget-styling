@@ -41,8 +41,8 @@ class Test_BWS_Widget_Recent_Posts extends \WP_UnitTestCase {
 		$args        = array(
 			'before_title'  => '',
 			'after_title'   => '',
-			'before_widget' => '',
-			'after_widget'  => '',
+			'before_widget' => '<section>',
+			'after_widget'  => '</section>',
 		);
 
 		ob_start();

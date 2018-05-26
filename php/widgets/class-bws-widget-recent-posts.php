@@ -21,11 +21,22 @@ class BWS_Widget_Recent_Posts extends \WP_Widget_Recent_Posts {
 	public function widget( $args, $instance ) {
 		ob_start();
 		parent::widget( $args, $instance );
+		$output = ob_get_clean();
 
-		// DOMDocument::loadHTML raises an error in parsing some HTML5 elements, like <aside>.
-		$output = str_replace( 'aside', 'div', ob_get_clean() );
-		$dom    = new \DOMDocument();
-		$dom->loadHTML( $output );
+		/**
+		 * DOMDocument::loadHTML() raises an error in parsing some HTML5 elements, like <aside> and <section>.
+		 *
+		 * Themes can add HTML5 elements via $args['before_widget'] and $args['before_widget'].
+		 * So this removes them from the markup that DOMDocument::loadHTML() parses.
+		 * The 'before_widget' and 'after_widget' markup will still be part of the final widget markup in the echo statement.
+		 */
+		$markup_to_search = str_replace(
+			array( $args['before_widget'], $args['after_widget'] ),
+			'',
+			$output
+		);
+		$dom              = new \DOMDocument();
+		$dom->loadHTML( $markup_to_search );
 		$list_group = '<div class="list-group">';
 		foreach ( $dom->getElementsByTagName( 'li' ) as $li ) {
 			$anchor = $li->getElementsByTagName( 'a' );
