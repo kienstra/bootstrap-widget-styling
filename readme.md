@@ -25,6 +25,8 @@ Make widgets mobile. A bigger click area and cleaner look for 9 default widgets.
 * Doesn't work at all on "The Bootstrap," "Radiant," "Customizr," and "Inkzine."
 * No setup needed, unless you want to disable it for certain widgets.
 
+[![Play video on YouTube](https://i1.ytimg.com/vi/1zQXCyzvfe4/hqdefault.jpg)](https://www.youtube.com/watch?v=1zQXCyzvfe4)
+
 ## Installation ##
 
 1. Upload the bootstrap-widget-styling directory to your /wp-content/plugins directory.
@@ -77,7 +79,7 @@ No, this doesn't use a stylesheet. It only formats widgets so they can use Boots
 * Translation-ready, but no translations included.
 
 ### 1.0.1 ###
-* Tag cloud widget support added. Improved support for the customizer: widgets will be styled as they're added.
+* Tag cloud widget support added. Improved support for the Customizer: widgets will be styled as they're added.
 
 ### 1.0.0 ###
 * First version
